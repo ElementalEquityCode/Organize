@@ -73,12 +73,14 @@ class ToDoItem: Decodable {
     }
     
     func updateToDoItem(_ completion: (() -> Void)? = nil, dueDate: Timestamp? = nil) {
-        path!.updateData(["name": name, "due_date": dueDate ?? NSNull()]) { (error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                if let completion = completion {
-                    completion()
+        if let path = path {
+            path.updateData(["name": name, "due_date": dueDate ?? NSNull()]) { (error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    if let completion = completion {
+                        completion()
+                    }
                 }
             }
         }

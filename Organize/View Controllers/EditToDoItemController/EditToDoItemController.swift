@@ -183,8 +183,6 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
                 toDoItemTextViewScrollableHeight.constant = textView.contentSize.height
             }
         }
-        
-        toDoItem.name = textView.text
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -206,6 +204,8 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
     }
     
     @objc private func saveEdits() {
+        toDoItem.name = toDoItemTextView.text
+        
         if toDoItem.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             toDoItem.deleteFromDatabase {
                 self.delegate.didDeleteItem(row: self.row)
