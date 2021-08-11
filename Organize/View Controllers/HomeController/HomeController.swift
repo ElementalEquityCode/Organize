@@ -326,7 +326,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 }
             }
             
-            self.toDoItemsCollectionView.deleteItems(at: selectedIndexPaths)
+            self.toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
         }
         
         isEditingCollectionView = false
