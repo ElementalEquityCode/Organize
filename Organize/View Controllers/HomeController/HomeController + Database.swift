@@ -87,6 +87,7 @@ extension HomeController: CreateListDelegate {
                             }
                             
                             toDoItem.path = path.collection("items").document(document.documentID)
+                            
                             list.toDoItems.append(toDoItem)
                         } catch let error {
                             print(String(describing: error))

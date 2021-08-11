@@ -60,30 +60,12 @@ class ToDoItem: Decodable {
     
     // MARK: - Mutators
     
-    func deleteFromDatabase(_ completion: (() -> Void)? = nil) {
-        path!.delete { (error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                if let completion = completion {
-                    completion()
-                }
-            }
-        }
+    func deleteFromDatabase() {
+        path!.delete()
     }
     
-    func updateToDoItem(_ completion: (() -> Void)? = nil, dueDate: Timestamp? = nil) {
-        if let path = path {
-            path.updateData(["name": name, "due_date": dueDate ?? NSNull()]) { (error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    if let completion = completion {
-                        completion()
-                    }
-                }
-            }
-        }
+    func updateToDoItem(dueDate: Timestamp? = nil) {
+        path!.updateData(["name": name, "due_date": dueDate ?? NSNull()]) 
     }
     
 }

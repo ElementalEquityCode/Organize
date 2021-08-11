@@ -232,7 +232,7 @@
 				1E51096426AF6A83009EF01C /* HomeController */,
 				1E47565426A1068100334B13 /* SlideOutMenuController */,
 				1EF3DAF626A8B1EF003537E2 /* ToDoItemListCollectionView */,
-				1ED61E2F26B344D6008011D7 /* EditToDoItemController */,
+				1ED61E3026B344E5008011D7 /* EditToDoItemController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -245,14 +245,6 @@
 				1E5E14CC269F9A5E005C7C37 /* GeneralTextField.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		1ED61E2F26B344D6008011D7 /* EditToDoItemController */ = {
-			isa = PBXGroup;
-			children = (
-				1ED61E3026B344E5008011D7 /* EditToDoItemController.swift */,
-			);
-			path = EditToDoItemController;
 			sourceTree = "<group>";
 		};
 		1EF3DAF626A8B1EF003537E2 /* ToDoItemListCollectionView */ = {

@@ -207,10 +207,10 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
         toDoItem.name = toDoItemTextView.text
         
         if toDoItem.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            toDoItem.deleteFromDatabase {
-                self.delegate.didDeleteItem(row: self.row)
-                self.dismissThisViewController()
-            }
+            toDoItem.deleteFromDatabase()
+            self.delegate.didDeleteItem(row: self.row)
+            self.dismissThisViewController()
+
         } else {
             var timestamp: Timestamp?
             
@@ -221,11 +221,10 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
                 toDoItem.dueDate = nil
             }
             
-            toDoItem.updateToDoItem({
-                self.delegate.didEditItem(row: self.row, toDoItem: self.toDoItem)
-                self.dismissThisViewController()
-            }, dueDate: timestamp)
+            toDoItem.updateToDoItem(dueDate: timestamp)
+            self.delegate.didEditItem(row: self.row, toDoItem: self.toDoItem)
         }
+        self.dismissThisViewController()
     }
     
     // MARK: - Helpers
