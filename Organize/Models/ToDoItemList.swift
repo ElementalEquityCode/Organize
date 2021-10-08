@@ -15,6 +15,7 @@ class ToDoItemList: Decodable, Equatable {
     var name: String
     var created: Date
     var toDoItems = [ToDoItem]()
+    var completedToDoItems = [ToDoItem]()
     var path: DocumentReference?
     
     enum CodingKeys: String, CodingKey {

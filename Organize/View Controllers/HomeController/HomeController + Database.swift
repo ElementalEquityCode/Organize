@@ -88,7 +88,11 @@ extension HomeController: CreateListDelegate {
                             
                             toDoItem.path = path.collection("items").document(document.documentID)
                             
-                            list.toDoItems.append(toDoItem)
+                            if !toDoItem.isCompleted {
+                                list.toDoItems.append(toDoItem)
+                            } else {
+                                list.completedToDoItems.append(toDoItem)
+                            }
                         } catch let error {
                             print(String(describing: error))
                         }
@@ -131,6 +135,15 @@ extension HomeController: CreateListDelegate {
                 var indexPaths = [IndexPath]()
                 for item in 0...firstList.toDoItems.count - 1 {
                     indexPaths.append(IndexPath(item: item, section: 0))
+                }
+                
+                toDoItemsCollectionView.insertItems(at: indexPaths)
+            }
+            
+            if !firstList.completedToDoItems.isEmpty {
+                var indexPaths = [IndexPath]()
+                for item in 0...firstList.completedToDoItems.count - 1 {
+                    indexPaths.append(IndexPath(item: item, section: 1))
                 }
                 
                 toDoItemsCollectionView.insertItems(at: indexPaths)

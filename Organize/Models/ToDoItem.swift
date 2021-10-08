@@ -68,4 +68,10 @@ class ToDoItem: Decodable {
         path!.updateData(["name": name, "due_date": dueDate ?? NSNull()]) 
     }
     
+    // MARK: - Equatable
+    
+    static func == (toDoItem1: ToDoItem, toDoItem2: ToDoItem) -> Bool {
+        return toDoItem1.path == toDoItem2.path
+    }
+    
 }

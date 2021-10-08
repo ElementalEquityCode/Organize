@@ -16,12 +16,24 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
     
     // MARK: - UICollectionViewDataSource
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if toDoItemLists.isEmpty {
-            return 0
+        if section == 0 {
+            if toDoItemLists.isEmpty {
+                return 0
+            } else {
+                if currentlyViewedList != nil {
+                    return currentlyViewedList!.toDoItems.count
+                } else {
+                    return 0
+                }
+            }
         } else {
             if currentlyViewedList != nil {
-                return currentlyViewedList!.toDoItems.count
+                return currentlyViewedList!.completedToDoItems.count
             } else {
                 return 0
             }
@@ -30,8 +42,14 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
     
     // MARK: - UICollectionViewDelegate
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ToDoListItemsCollectionViewCell {
+            cell.delegate = self
+            
             if isEditingCollectionView {
                 cell.animateCheckmarkView(isHidden: true)
                 cell.isSelectable = true
@@ -46,8 +64,12 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
                 if let index = toDoItemLists.firstIndex(of: currentlyViewedList!) {
                     cell.checkMarkView.primaryColorForCell = index % 2 == 0 ? .primaryColor : .secondaryColor
                 }
-                cell.toDoItem = currentlyViewedList!.toDoItems[indexPath.row]
-                cell.animateProgressViewDelegate = self
+                
+                if indexPath.section == 0 {
+                    cell.toDoItem = currentlyViewedList!.toDoItems[indexPath.row]
+                } else {
+                    cell.toDoItem = currentlyViewedList!.completedToDoItems[indexPath.row]
+                }
             }
             
             return cell
@@ -63,16 +85,22 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Edit Item", style: .default, handler: { (_) in
                 if self.currentlyViewedList != nil {
-                    let toDoItem = self.currentlyViewedList!.toDoItems[indexPath.row]
-                    let viewController = UINavigationController(rootViewController: EditToDoItemController(toDoItem: toDoItem, delegate: self, row: indexPath.row))
+                    let toDoItem = indexPath.section == 0 ? self.currentlyViewedList!.toDoItems[indexPath.row] : self.currentlyViewedList!.completedToDoItems[indexPath.row]
+                    let viewController = UINavigationController(rootViewController: EditToDoItemController(toDoItem: toDoItem, delegate: self, indexPath: indexPath))
                     viewController.modalPresentationStyle = .fullScreen
                     self.present(viewController, animated: true)
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Delete Item", style: .destructive, handler: { (_) in
                 if self.currentlyViewedList != nil {
-                    self.currentlyViewedList!.toDoItems[indexPath.row].deleteFromDatabase()
-                    self.currentlyViewedList!.toDoItems.remove(at: indexPath.row)
+                    if indexPath.section == 0 {
+                        self.currentlyViewedList!.toDoItems[indexPath.row].deleteFromDatabase()
+                        self.currentlyViewedList!.toDoItems.remove(at: indexPath.row)
+                    } else {
+                        self.currentlyViewedList!.completedToDoItems[indexPath.row].deleteFromDatabase()
+                        self.currentlyViewedList!.completedToDoItems.remove(at: indexPath.row)
+                    }
+                    
                     self.toDoItemsCollectionView.deleteItems(at: [indexPath])
                     self.progressViewShouldAnimate()
                 }
@@ -85,21 +113,27 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
     // MARK: - UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 0, bottom: toolBar.frame.height + 10, right: 0)
+        return UIEdgeInsets(top: 10, left: 0, bottom: section == 0 ? 10 : 10 + toolBar.frame.height, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == 0 {
+            return CGSize.zero
+        } else {
+            return CGSize(width: view.frame.width, height: 50)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        if let currentViewedList = currentlyViewedList {
-            if !currentViewedList.toDoItems.isEmpty {
-                let string = currentlyViewedList!.toDoItems[indexPath.row].name as NSString
-                let frame = string.boundingRect(with: CGSize(width: collectionView.frame.width - 60 - 20 - 22.5 - 10 - 20, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .regular)], context: nil)
-                return CGSize(width: collectionView.frame.width - 60, height: frame.height + 40)
-            }
+        if currentlyViewedList != nil {
+            let string = indexPath.section == 0 ? currentlyViewedList!.toDoItems[indexPath.row].name as NSString : currentlyViewedList!.completedToDoItems[indexPath.row].name as NSString
+            let frame = string.boundingRect(with: CGSize(width: collectionView.frame.width - 60 - 20 - 22.5 - 10 - 20, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .regular)], context: nil)
+                
+            return CGSize(width: collectionView.frame.width - 60, height: frame.height + 40)
         }
         return CGSize(width: collectionView.frame.width - 60, height: 60)
     }

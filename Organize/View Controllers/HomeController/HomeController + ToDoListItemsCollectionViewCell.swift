@@ -11,6 +11,8 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
     
     // MARK: - Properties
     
+    weak var delegate: CompletionStatusDelegate?
+    
     var isSelectable = false
     
     override var isSelected: Bool {
@@ -24,8 +26,6 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
             }
         }
     }
-
-    weak var animateProgressViewDelegate: AnimateProgressViewDelegate?
         
     weak var toDoItem: ToDoItem? {
         didSet {
@@ -143,7 +143,7 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
         if let item = toDoItem {
             item.isCompleted = isChecked
             self.performTaskLabelAnimation(with: isChecked)
-            animateProgressViewDelegate?.progressViewShouldAnimate()
+            delegate?.didCompleteTask(task: item)
         }
     }
     

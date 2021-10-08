@@ -9,14 +9,12 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate, AnimateProgressViewDelegate, EditToDoItemDelegate, CreateItemDelegate {
+class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate, AnimateProgressViewDelegate, EditToDoItemDelegate, CreateItemDelegate, CompletionStatusDelegate {
     
     // MARK: - Properties
     
     var haveItemsBeenFetched = false
-    
-    var lastOpenedRow: Int?
-    
+        
     unowned let baseController: BaseController
     
     lazy var currentlyViewedList: ToDoItemList? = nil {
@@ -110,6 +108,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ToDoListItemsCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(CompletedToDoItemsCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         return collectionView
     }()
     
@@ -316,17 +315,19 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
             
             if let currentlyViewedList = currentlyViewedList {
-                if !currentlyViewedList.toDoItems.isEmpty {
-                    let sortedPaths = selectedIndexPaths.sorted(by: {$0.row > $1.row})
-                    
-                    for index in sortedPaths {
+                let sortedPaths = selectedIndexPaths.sorted(by: {$0 > $1})
+                
+                for index in sortedPaths {
+                    if index.section == 0 {
                         currentlyViewedList.toDoItems[index.row].deleteFromDatabase()
                         currentlyViewedList.toDoItems.remove(at: index.row)
+                    } else {
+                        currentlyViewedList.completedToDoItems[index.row].deleteFromDatabase()
+                        currentlyViewedList.completedToDoItems.remove(at: index.row)
                     }
                 }
             }
-            
-            self.toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
+            toDoItemsCollectionView.reloadSections(IndexSet(0...1))
         }
         
         isEditingCollectionView = false
@@ -421,11 +422,53 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         
         currentlyViewedList = list
         
-        toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
+        toDoItemsCollectionView.reloadSections(IndexSet(0...1))
         
         if let index = toDoItemLists.firstIndex(of: list) {
             listCollectionViewController.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: true)
         }
+    }
+    
+    // MARK: - CompletionStatusDelegate
+    
+    func didCompleteTask(task: ToDoItem) {
+        var indexMoveFrom: IndexPath?
+        
+        if let currentlyViewedList = currentlyViewedList {
+            if task.isCompleted {
+                
+                if let index = currentlyViewedList.toDoItems.firstIndex(where: { (toDoItem) -> Bool in
+                    return toDoItem === task
+                }) {
+                    indexMoveFrom = IndexPath(item: index, section: 0)
+                    currentlyViewedList.toDoItems.remove(at: index)
+                    currentlyViewedList.completedToDoItems.append(task)
+                }
+                
+            } else {
+                
+                if let index = currentlyViewedList.completedToDoItems.firstIndex(where: { (toDoItem) -> Bool in
+                    return toDoItem === task
+                }) {
+                    indexMoveFrom = IndexPath(item: index, section: 1)
+                    currentlyViewedList.completedToDoItems.remove(at: index)
+                    currentlyViewedList.toDoItems.append(task)
+                }
+                
+            }
+        }
+        
+        if let indexMoveFrom = indexMoveFrom {
+            if currentlyViewedList != nil {
+                if indexMoveFrom.section == 0 {
+                    toDoItemsCollectionView.moveItem(at: indexMoveFrom, to: IndexPath(item: currentlyViewedList!.completedToDoItems.count - 1, section: 1))
+                } else if indexMoveFrom.section == 1 {
+                    toDoItemsCollectionView.moveItem(at: indexMoveFrom, to: IndexPath(item: currentlyViewedList!.toDoItems.count - 1, section: 0))
+                }
+            }
+        }
+        
+        progressViewShouldAnimate()
     }
     
     // MARK: - CreateItemDelegate
@@ -450,17 +493,25 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     // MARK: - EditItemProtocol
     
-    func didEditItem(row: Int, toDoItem: ToDoItem) {
+    func didEditItem(indexPath: IndexPath, toDoItem: ToDoItem) {
         if let currentlyViewedList = currentlyViewedList {
-            currentlyViewedList.toDoItems[row] = toDoItem
-            toDoItemsCollectionView.reloadItems(at: [IndexPath(item: row, section: 0)])
+            if indexPath.section == 0 {
+                currentlyViewedList.toDoItems[indexPath.row] = toDoItem
+            } else {
+                currentlyViewedList.completedToDoItems[indexPath.row] = toDoItem
+            }
+            toDoItemsCollectionView.reloadItems(at: [indexPath])
         }
     }
     
-    func didDeleteItem(row: Int) {
+    func didDeleteItem(indexPath: IndexPath) {
         if let currentlyViewedList = currentlyViewedList {
-            currentlyViewedList.toDoItems.remove(at: row)
-            toDoItemsCollectionView.deleteItems(at: [IndexPath(item: row, section: 0)])
+            if indexPath.section == 0 {
+                currentlyViewedList.toDoItems.remove(at: indexPath.row)
+            } else {
+                currentlyViewedList.completedToDoItems.remove(at: indexPath.row)
+            }
+            toDoItemsCollectionView.deleteItems(at: [indexPath])
         }
     }
     
@@ -626,8 +677,15 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 for row in 0...currentlyViewedList.toDoItems.count - 1 {
                     indexPaths.append(IndexPath(item: row, section: 0))
                 }
-                toDoItemsCollectionView.reloadItems(at: indexPaths)
             }
+            
+            if !currentlyViewedList.completedToDoItems.isEmpty {
+                for row in 0...currentlyViewedList.completedToDoItems.count - 1 {
+                    indexPaths.append(IndexPath(item: row, section: 1))
+                }
+            }
+            
+            toDoItemsCollectionView.reloadItems(at: indexPaths)
         }
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {

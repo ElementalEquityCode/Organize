@@ -8,7 +8,7 @@
 import Foundation
 
 protocol EditToDoItemDelegate: AnyObject {
-    func didEditItem(row: Int, toDoItem: ToDoItem)
+    func didEditItem(indexPath: IndexPath, toDoItem: ToDoItem)
     
-    func didDeleteItem(row: Int)
+    func didDeleteItem(indexPath: IndexPath)
 }

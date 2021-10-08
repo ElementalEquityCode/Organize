@@ -12,7 +12,7 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
     
     // MARK: - Property
     
-    private var row: Int
+    private var indexPath: IndexPath
     
     private unowned let delegate: EditToDoItemDelegate
     
@@ -93,10 +93,10 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
     
     // MARK: - Initialization
     
-    init(toDoItem: ToDoItem, delegate: EditToDoItemDelegate, row: Int) {
+    init(toDoItem: ToDoItem, delegate: EditToDoItemDelegate, indexPath: IndexPath) {
         self.toDoItem = toDoItem
         self.delegate = delegate
-        self.row = row
+        self.indexPath = indexPath
         
         super.init(nibName: nil, bundle: nil)
         
@@ -208,7 +208,7 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
         
         if toDoItem.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             toDoItem.deleteFromDatabase()
-            self.delegate.didDeleteItem(row: self.row)
+            self.delegate.didDeleteItem(indexPath: self.indexPath)
             self.dismissThisViewController()
 
         } else {
@@ -222,7 +222,7 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
             }
             
             toDoItem.updateToDoItem(dueDate: timestamp)
-            self.delegate.didEditItem(row: self.row, toDoItem: self.toDoItem)
+            self.delegate.didEditItem(indexPath: self.indexPath, toDoItem: self.toDoItem)
         }
         self.dismissThisViewController()
     }

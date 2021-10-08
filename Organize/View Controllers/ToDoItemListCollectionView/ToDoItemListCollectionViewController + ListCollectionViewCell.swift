@@ -26,19 +26,19 @@ class ListCollectionViewCell: UICollectionViewCell {
                 
                 self.toDoListNameLabel.text = toDoItemList.name
                                 
-                if !toDoItemList.toDoItems.isEmpty {
-                    var numberOfCompletedItems: Float = 0.0
-                    
-                    for item in toDoItemList.toDoItems {
-                        numberOfCompletedItems += item.isCompleted ? 1.0 : 0.0
-                    }
-                    
-                    if hasProgressViewAlreadyAnimated != nil {
-                        if hasProgressViewAlreadyAnimated!.0 {
-                            progressView.setProgress(Float(numberOfCompletedItems) / Float(toDoItemList.toDoItems.count), animated: false)
-                        } else {
-                            delegate?.progressViewDidAlreadyAnimate(for: (true, hasProgressViewAlreadyAnimated!.1))
-                            performProgressViewAnimation(to: numberOfCompletedItems / Float(toDoItemList.toDoItems.count))
+                let completedItems = toDoItemList.completedToDoItems.count
+                let totalItems = toDoItemList.toDoItems.count + toDoItemList.completedToDoItems.count
+
+                if hasProgressViewAlreadyAnimated != nil {
+                    if hasProgressViewAlreadyAnimated!.0 {
+                        if completedItems != 0 {
+                            progressView.setProgress(Float(completedItems) / Float(totalItems), animated: false)
+                        }
+                    } else {
+                        delegate?.progressViewDidAlreadyAnimate(for: (true, hasProgressViewAlreadyAnimated!.1))
+                        
+                        if completedItems != 0 {
+                            performProgressViewAnimation(to: Float(completedItems) / Float(totalItems))
                         }
                     }
                 }
@@ -129,21 +129,16 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     func performProgressViewAfterUpdatingToDoItem() {
         if let toDoItemList = self.toDoItemList {
-            if !toDoItemList.toDoItems.isEmpty {
-                
-                if toDoItemList.toDoItems.isEmpty || toDoItemList.toDoItems.count > 1 {
-                    self.totalTasksLabel.text = "\(toDoItemList.toDoItems.count) tasks"
-                } else {
-                    self.totalTasksLabel.text = "\(toDoItemList.toDoItems.count) task"
-                }
-                
-                var numberOfCompletedItems: Float = 0.0
-                
-                for item in toDoItemList.toDoItems {
-                    numberOfCompletedItems += item.isCompleted ? 1.0 : 0.0
-                }
-                
-                performProgressViewAnimation(to: numberOfCompletedItems / Float(toDoItemList.toDoItems.count))
+            if toDoItemList.toDoItems.isEmpty || toDoItemList.toDoItems.count > 1 {
+                self.totalTasksLabel.text = "\(toDoItemList.toDoItems.count) tasks"
+            } else {
+                self.totalTasksLabel.text = "\(toDoItemList.toDoItems.count) task"
+            }
+            
+            let totalItems = toDoItemList.toDoItems.count + toDoItemList.completedToDoItems.count
+            
+            if totalItems != 0 {
+                performProgressViewAnimation(to: Float(toDoItemList.completedToDoItems.count) / Float(totalItems))
             } else {
                 performProgressViewAnimation(to: 0)
             }
