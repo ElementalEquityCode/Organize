@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate, AnimateProgressViewDelegate, EditToDoItemDelegate, CreateItemDelegate, CompletionStatusDelegate {
+class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate, AnimateProgressViewDelegate, EditToDoItemDelegate, CreateItemDelegate, CompletionStatusDelegate, CompletionStatusFromSearchControllerDelegate {
     
     // MARK: - Properties
     
@@ -44,7 +44,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         
     lazy var menuSwipeLimit = view.frame.width * 0.6
             
-    private lazy var headerIconsNavigationBar = UIStackView.makeHorizontalStackView(with: [slideOutControllerButton, editListButton], distribution: .equalSpacing, spacing: 0)
+    private lazy var headerIconsNavigationBar = UIStackView.makeHorizontalStackView(with: [slideOutControllerButton, UIView(), searchForTaskButton, editListButton], distribution: .fill, spacing: 10)
         
     private let slideOutControllerButton: UIButton = {
         let button = UIButton(type: .system)
@@ -63,6 +63,19 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         let label = UILabel.makeSubheadingLabel(with: "Lists".uppercased())
         label.textAlignment = .left
         return label
+    }()
+    
+    private let searchForTaskButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setBackgroundImage(UIImage(named: "magnifyingglass.circle"), for: .normal)
+        button.imageView!.contentMode = .scaleAspectFill
+        button.imageView!.translatesAutoresizingMaskIntoConstraints = false
+        button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
+        button.tintColor = .titleLabelFontColor
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        return button
     }()
     
     private let editListButton: UIButton = {
@@ -100,7 +113,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         }
     }
         
-    var toDoItemsCollectionView: UICollectionView = {
+    let toDoItemsCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.allowsMultipleSelection = true
         collectionView.showsVerticalScrollIndicator = false
@@ -236,6 +249,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     private func setSubviewsToInvisible() {
         slideOutControllerButton.alpha = 0
+        searchForTaskButton.alpha = 0
         editListButton.alpha = 0
         
         listsLabel.alpha = 0
@@ -250,6 +264,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     func animateSubviews() {
         UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
             self.slideOutControllerButton.alpha = 1
+            self.searchForTaskButton.alpha = 1
             self.editListButton.alpha = 1
         }
         
@@ -285,6 +300,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     private func setupTargets() {
         slideOutControllerButton.addTarget(baseController, action: #selector(baseController.handleOpenMenu), for: .touchUpInside)
+        searchForTaskButton.addTarget(self, action: #selector(presentTaskSearchViewController), for: .touchUpInside)
         editListButton.addTarget(self, action: #selector(handleEditList), for: .touchUpInside)
     }
     
@@ -337,6 +353,17 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     @objc private func handleCloseToolBar() {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         isEditingCollectionView = false
+    }
+    
+    @objc private func presentTaskSearchViewController() {
+        let searchForTaskController = SearchForTaskController()
+        searchForTaskController.toDoItemLists = toDoItemLists
+        searchForTaskController.delegate = self
+        
+        let navigationController = UINavigationController(rootViewController: searchForTaskController)
+        navigationController.modalPresentationStyle = .fullScreen
+        
+        present(navigationController, animated: true)
     }
     
     @objc private func handleKeyboardOpen(notification: Notification) {
@@ -474,6 +501,13 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         progressViewShouldAnimate()
     }
     
+    // MARK: - CompletionStatusFromSearchControllerDelegate
+    
+    func didChangeTaskCompletionStatus() {
+        toDoItemsCollectionView.reloadData()
+        allProgressViewsShouldAnimate()
+    }
+    
     // MARK: - CreateItemDelegate
     
     func didCreateItem() {
@@ -492,6 +526,10 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 listCollectionViewController.animateProgressViewForList(at: index)
             }
         }
+    }
+    
+    func allProgressViewsShouldAnimate() {
+        listCollectionViewController.collectionView.reloadData()
     }
     
     // MARK: - EditItemProtocol

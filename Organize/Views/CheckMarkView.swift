@@ -120,7 +120,7 @@ class CheckMarkView: UIView {
         
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
             self.contentViewCircleView.transform = self.isChecked ? CGAffineTransform(scaleX: 0.001, y: 0.001) : CGAffineTransform(scaleX: 0.85, y: 0.85)
-            self.contentViewCircleView.backgroundColor = self.isChecked ? self.primaryColorForCell! : .white
+            self.contentViewCircleView.backgroundColor = self.isChecked ? self.primaryColorForCell ?? .primaryColor : .white
         }
     }
     

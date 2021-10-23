@@ -25,12 +25,14 @@
 		1E47565126A0DACF00334B13 /* ResetPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47565026A0DACF00334B13 /* ResetPasswordController.swift */; };
 		1E47565626A1069300334B13 /* SlideOutMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47565526A1069300334B13 /* SlideOutMenuController.swift */; };
 		1E51096226AF6925009EF01C /* CreateListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E51096126AF6925009EF01C /* CreateListDelegate.swift */; };
+		1E585C062724C65A00AF0520 /* CompletionStatusFromSearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E585C052724C65A00AF0520 /* CompletionStatusFromSearchControllerDelegate.swift */; };
 		1E5E14B2269F80E0005C7C37 /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E14B1269F80E0005C7C37 /* UIStackView.swift */; };
 		1E5E14B6269F816A005C7C37 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E14B5269F816A005C7C37 /* UIView.swift */; };
 		1E5E14BA269F825B005C7C37 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E14B9269F825B005C7C37 /* UIColor.swift */; };
 		1E5E14C2269F82EE005C7C37 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E14C1269F82EE005C7C37 /* UIViewController.swift */; };
 		1E5E14CD269F9A5E005C7C37 /* GeneralTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E14CC269F9A5E005C7C37 /* GeneralTextField.swift */; };
 		1E5E14D1269FA3D3005C7C37 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E14D0269FA3D3005C7C37 /* UIButton.swift */; };
+		1E5F1F9A2724953900486F69 /* SearchForTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5F1F992724953900486F69 /* SearchForTaskController.swift */; };
 		1E87647626AA10D000D33C43 /* HomeController + Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87647526AA10D000D33C43 /* HomeController + Database.swift */; };
 		1E87647926AA15C500D33C43 /* HomeController + ToDoListItemsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87647826AA15C500D33C43 /* HomeController + ToDoListItemsCollectionViewCell.swift */; };
 		1E87647C26AA167900D33C43 /* HomeController + UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87647B26AA167900D33C43 /* HomeController + UICollectionView.swift */; };
@@ -46,6 +48,7 @@
 		1EBDD44E269F7FEB002BB066 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBDD44D269F7FEB002BB066 /* UILabel.swift */; };
 		1ED61E3126B344E5008011D7 /* EditToDoItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED61E3026B344E5008011D7 /* EditToDoItemController.swift */; };
 		1ED61E3526B35B3F008011D7 /* EditToDoItemDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED61E3426B35B3F008011D7 /* EditToDoItemDelegate.swift */; };
+		1EDA07052724997E007BB315 /* SearchForTaskController + UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDA07042724997E007BB315 /* SearchForTaskController + UICollectionView.swift */; };
 		1EE63AD226BB7F0B009E983B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1EE63AD126BB7F0B009E983B /* .swiftlint.yml */; };
 		1EED7F3626A269F400AFE7F5 /* UIActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EED7F3526A269F400AFE7F5 /* UIActivityIndicatorView.swift */; };
 		1EF3DAF826A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF3DAF726A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift */; };
@@ -78,12 +81,14 @@
 		1E47565026A0DACF00334B13 /* ResetPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordController.swift; sourceTree = "<group>"; };
 		1E47565526A1069300334B13 /* SlideOutMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideOutMenuController.swift; sourceTree = "<group>"; };
 		1E51096126AF6925009EF01C /* CreateListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListDelegate.swift; sourceTree = "<group>"; };
+		1E585C052724C65A00AF0520 /* CompletionStatusFromSearchControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionStatusFromSearchControllerDelegate.swift; sourceTree = "<group>"; };
 		1E5E14B1269F80E0005C7C37 /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
 		1E5E14B5269F816A005C7C37 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		1E5E14B9269F825B005C7C37 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		1E5E14C1269F82EE005C7C37 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		1E5E14CC269F9A5E005C7C37 /* GeneralTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTextField.swift; sourceTree = "<group>"; };
 		1E5E14D0269FA3D3005C7C37 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		1E5F1F992724953900486F69 /* SearchForTaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchForTaskController.swift; sourceTree = "<group>"; };
 		1E87647526AA10D000D33C43 /* HomeController + Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeController + Database.swift"; sourceTree = "<group>"; };
 		1E87647826AA15C500D33C43 /* HomeController + ToDoListItemsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeController + ToDoListItemsCollectionViewCell.swift"; sourceTree = "<group>"; };
 		1E87647B26AA167900D33C43 /* HomeController + UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeController + UICollectionView.swift"; sourceTree = "<group>"; };
@@ -101,6 +106,7 @@
 		1EBDD44D269F7FEB002BB066 /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		1ED61E3026B344E5008011D7 /* EditToDoItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToDoItemController.swift; sourceTree = "<group>"; };
 		1ED61E3426B35B3F008011D7 /* EditToDoItemDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToDoItemDelegate.swift; sourceTree = "<group>"; };
+		1EDA07042724997E007BB315 /* SearchForTaskController + UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchForTaskController + UICollectionView.swift"; sourceTree = "<group>"; };
 		1EE63AD126BB7F0B009E983B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		1EED7F3526A269F400AFE7F5 /* UIActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIActivityIndicatorView.swift; sourceTree = "<group>"; };
 		1EF3DAF726A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemListCollectionViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +247,7 @@
 				1E47565426A1068100334B13 /* SlideOutMenuController */,
 				1EF3DAF626A8B1EF003537E2 /* ToDoItemListCollectionView */,
 				1ED61E3026B344E5008011D7 /* EditToDoItemController.swift */,
+				1EDA070327249954007BB315 /* SearchForTaskController */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -253,6 +260,15 @@
 				1E5E14CC269F9A5E005C7C37 /* GeneralTextField.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1EDA070327249954007BB315 /* SearchForTaskController */ = {
+			isa = PBXGroup;
+			children = (
+				1E5F1F992724953900486F69 /* SearchForTaskController.swift */,
+				1EDA07042724997E007BB315 /* SearchForTaskController + UICollectionView.swift */,
+			);
+			path = SearchForTaskController;
 			sourceTree = "<group>";
 		};
 		1EF3DAF626A8B1EF003537E2 /* ToDoItemListCollectionView */ = {
@@ -269,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				1E21845C26A3CF5F00F773D3 /* CheckMarkViewDelegate.swift */,
+				1E585C052724C65A00AF0520 /* CompletionStatusFromSearchControllerDelegate.swift */,
 				1EFB38E926B8E2E800BFC795 /* CreateItemDelegate.swift */,
 				1E51096126AF6925009EF01C /* CreateListDelegate.swift */,
 				1ED61E3426B35B3F008011D7 /* EditToDoItemDelegate.swift */,
@@ -441,6 +458,8 @@
 				1EFFCAF5269FDDAC006BF8F6 /* RegisterController.swift in Sources */,
 				1EFFCB03269FE30B006BF8F6 /* UserRegistrationDelegate.swift in Sources */,
 				1E5E14BA269F825B005C7C37 /* UIColor.swift in Sources */,
+				1E5F1F9A2724953900486F69 /* SearchForTaskController.swift in Sources */,
+				1EDA07052724997E007BB315 /* SearchForTaskController + UICollectionView.swift in Sources */,
 				1E87647926AA15C500D33C43 /* HomeController + ToDoListItemsCollectionViewCell.swift in Sources */,
 				1E168D2326AB91A000D4836B /* BaseController.swift in Sources */,
 				1E3B6B312710D0BC0008B1B5 /* HomeController + CompletedToDoItemsCollectionViewHeader.swift in Sources */,
@@ -459,6 +478,7 @@
 				1EF3DAF826A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift in Sources */,
 				1E3B6B2E2710CC110008B1B5 /* CompletionStatusDelegate.swift in Sources */,
 				1ED61E3126B344E5008011D7 /* EditToDoItemController.swift in Sources */,
+				1E585C062724C65A00AF0520 /* CompletionStatusFromSearchControllerDelegate.swift in Sources */,
 				1E29BDC226A4F2AC004EE106 /* SelectListDelegate.swift in Sources */,
 				1EBDD44E269F7FEB002BB066 /* UILabel.swift in Sources */,
 				1ED61E3526B35B3F008011D7 /* EditToDoItemDelegate.swift in Sources */,
@@ -621,7 +641,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.4.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielvalencia.ee.Organize;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -643,7 +663,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.4.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielvalencia.ee.Organize;
 				PRODUCT_NAME = "$(TARGET_NAME)";

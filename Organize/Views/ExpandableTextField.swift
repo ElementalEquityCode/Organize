@@ -46,7 +46,7 @@ class ExpandableTextField: UITextField {
                 alpha = 1
                 inputView = nil
                 reloadInputViews()
-                toolBar.setItems([selectDueDateBarButtonItem], animated: true)
+                toolBar.setItems([selectDueDateBarButtonItem, createToDoItemBarButtonItem], animated: true)
             case .date:
                 alpha = 0
                 datePicker.sizeToFit()
@@ -76,6 +76,7 @@ class ExpandableTextField: UITextField {
     
     private lazy var createToDoItemBarButtonItem: UIBarButtonItem = { [unowned self] in
         let button = UIBarButtonItem(title: "Create Task", style: .done, target: self, action: #selector(handleFinishSelectingDate))
+        button.isEnabled = false
         button.tintColor = .primaryColor
         return button
     }()
@@ -139,7 +140,7 @@ class ExpandableTextField: UITextField {
     }
     
     private func setupSubviews() {
-        toolBar.setItems([selectDueDateBarButtonItem], animated: true)
+        toolBar.setItems([selectDueDateBarButtonItem, createToDoItemBarButtonItem], animated: true)
         toolBar.sizeToFit()
         inputAccessoryView = toolBar
     }
@@ -176,18 +177,28 @@ class ExpandableTextField: UITextField {
     @objc private func textFieldDidChangeEditing() {
         capturedText = text!
         selectDueDateBarButtonItem.isEnabled = !text!.trimmingCharacters(in: .whitespaces).isEmpty
+        createToDoItemBarButtonItem.isEnabled = !text!.trimmingCharacters(in: .whitespaces).isEmpty
     }
     
     @objc private func textFieldDidEndEditing() {
         text!.removeAll()
+        createToDoItemBarButtonItem.isEnabled = false
         selectDueDateBarButtonItem.isEnabled = false
         performAnimation(to: .closed)
     }
     
     @objc private func handleFinishSelectingDate() {
-        capturedDate = datePicker.date
-        resignFirstResponder()
+        if inputState == .date {
+            capturedDate = datePicker.date
+            resignFirstResponder()
+        }
         createItemDelegate?.didCreateItem()
+        
+        capturedText = ""
+        capturedDate = nil
+        text = ""
+        createToDoItemBarButtonItem.isEnabled = false
+        selectDueDateBarButtonItem.isEnabled = false
     }
     
     // MARK: - Animations
