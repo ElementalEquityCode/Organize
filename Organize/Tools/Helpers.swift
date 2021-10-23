@@ -44,3 +44,17 @@ func performCloseKeyboardAnimation(moving view: UIView, _ duration: Double) {
         view.transform = .identity
     }
 }
+
+func getToDoItemListInsertionPositionOrderedByDate(for item: ToDoItem, list: [ToDoItem]) -> Int {
+    var index = 0
+    
+    while index < list.count {
+        if item.created > list[index].created {
+            index += 1
+        } else {
+            return index
+        }
+    }
+    
+    return index
+}

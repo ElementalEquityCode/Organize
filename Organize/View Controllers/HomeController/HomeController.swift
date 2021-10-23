@@ -433,6 +433,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     func didCompleteTask(task: ToDoItem) {
         var indexMoveFrom: IndexPath?
+        var indexMoveTo: IndexPath?
         
         if let currentlyViewedList = currentlyViewedList {
             if task.isCompleted {
@@ -442,7 +443,10 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 }) {
                     indexMoveFrom = IndexPath(item: index, section: 0)
                     currentlyViewedList.toDoItems.remove(at: index)
-                    currentlyViewedList.completedToDoItems.append(task)
+                    
+                    indexMoveTo = IndexPath(item: getToDoItemListInsertionPositionOrderedByDate(for: task, list: currentlyViewedList.completedToDoItems), section: 1)
+                    
+                    currentlyViewedList.completedToDoItems.insert(task, at: indexMoveTo!.item)
                 }
                 
             } else {
@@ -452,19 +456,18 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 }) {
                     indexMoveFrom = IndexPath(item: index, section: 1)
                     currentlyViewedList.completedToDoItems.remove(at: index)
-                    currentlyViewedList.toDoItems.append(task)
+                    
+                    indexMoveTo = IndexPath(item: getToDoItemListInsertionPositionOrderedByDate(for: task, list: currentlyViewedList.toDoItems), section: 0)
+                    
+                    currentlyViewedList.toDoItems.insert(task, at: indexMoveTo!.item)
                 }
                 
             }
         }
         
-        if let indexMoveFrom = indexMoveFrom {
+        if let indexMoveFrom = indexMoveFrom, let indexMoveTo = indexMoveTo {
             if currentlyViewedList != nil {
-                if indexMoveFrom.section == 0 {
-                    toDoItemsCollectionView.moveItem(at: indexMoveFrom, to: IndexPath(item: currentlyViewedList!.completedToDoItems.count - 1, section: 1))
-                } else if indexMoveFrom.section == 1 {
-                    toDoItemsCollectionView.moveItem(at: indexMoveFrom, to: IndexPath(item: currentlyViewedList!.toDoItems.count - 1, section: 0))
-                }
+                toDoItemsCollectionView.moveItem(at: indexMoveFrom, to: indexMoveTo)
             }
         }
         
