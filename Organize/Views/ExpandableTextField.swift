@@ -127,7 +127,7 @@ class ExpandableTextField: UITextField {
         backgroundColor = .primaryColor
         layer.cornerRadius = 30
         textAlignment = .center
-        autocorrectionType = .no
+        autocorrectionType = .yes
         
         attributedPlaceholder = NSAttributedString(string: "+", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 40, weight: .thin), NSAttributedString.Key.baselineOffset: 1])
         
