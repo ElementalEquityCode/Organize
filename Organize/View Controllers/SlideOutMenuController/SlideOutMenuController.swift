@@ -109,7 +109,24 @@ class SlideOutMenuController: UITableViewController, PHPickerViewControllerDeleg
         baseController.animateMenu(to: .closed)
     }
     
-    @objc func presentPHPickerViewController() {
+    @objc func didTapProfileImageView() {
+        if let header = tableView.headerView(forSection: 0) as? ProfileTableViewHeader {
+            if header.profileImageView.image != UIImage(named: "person.crop.circle") {
+                let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                alertController.addAction(UIAlertAction(title: "Change Photo", style: .default, handler: { (_) in
+                    self.presentPHPickerViewController()
+                }))
+                alertController.addAction(UIAlertAction(title: "Remove Photo", style: .destructive, handler: { (_) in
+                    self.deleteOnlyPhotoFromStorage()
+                }))
+                present(alertController, animated: true)
+            } else {
+                presentPHPickerViewController()
+            }
+        }
+    }
+    
+    func presentPHPickerViewController() {
         var configuration = PHPickerConfiguration()
         configuration.filter = PHPickerFilter.images
         configuration.selectionLimit = 1
@@ -175,6 +192,22 @@ class SlideOutMenuController: UITableViewController, PHPickerViewControllerDeleg
                         print(error.localizedDescription)
                     } else {
                         Firestore.firestore().collection("users").document(user.uid).updateData(["profile_image_url": storageLocation.fullPath])
+                    }
+                }
+            }
+        }
+    }
+    
+    private func deleteOnlyPhotoFromStorage() {
+        if let user = Auth.auth().currentUser {
+            Storage.storage().reference().child("users").child(user.uid).child("profile_image").delete { (error) in
+                if let error = error {
+                    self.present(makeAlertViewController(with: "Error", message: error.localizedDescription), animated: true)
+                } else {
+                    if let header = self.tableView.headerView(forSection: 0) as? ProfileTableViewHeader {
+                        UIView.transition(with: header.profileImageView, duration: 0.5, options: .transitionCrossDissolve) {
+                            header.profileImageView.image = UIImage(named: "person.crop.circle")
+                        }
                     }
                 }
             }

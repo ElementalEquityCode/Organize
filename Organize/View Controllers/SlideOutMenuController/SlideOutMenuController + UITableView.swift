@@ -30,7 +30,7 @@ extension SlideOutMenuController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "profile-cell") as? ProfileTableViewHeader {
             cell.closeMenuButton.addTarget(self, action: #selector(closeMenu), for: .touchUpInside)
-            cell.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentPHPickerViewController)))
+            cell.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfileImageView)))
                         
             if let user = Auth.auth().currentUser, let email = user.email {
                 cell.emailLabel.text = email
