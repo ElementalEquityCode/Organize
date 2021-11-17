@@ -9,7 +9,7 @@ import UIKit
 
 extension UIColor {
     
-    static let baseViewControllerBackgroundColor = UIColor(red: 16/255, green: 36/255, blue: 91/255, alpha: 1)
+    static let baseViewControllerBackgroundColor = UIColor(red: 16/255, green: 24/255, blue: 39/255, alpha: 1)
     
     static let primaryBackgroundColor = UIColor.systemBackground
     
