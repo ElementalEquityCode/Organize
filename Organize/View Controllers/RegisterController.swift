@@ -14,12 +14,14 @@ import FirebaseFirestore
 class RegisterController: UIViewController, UITextFieldDelegate, PHPickerViewControllerDelegate {
     
     // MARK: - Properties
+    
+    private let elevatedBackground = UIView.makeElevatedBackground()
         
     weak var userRegistrationDelegate: UserRegistrationDelegate?
     
     var didSetProfileImage = false
     
-    private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, profileImageViewStackView, titleLabel, subheadingLabel, emailTextField, passwordTextField, confirmPasswordTextField, createAccountButton], distribution: .fill, spacing: 20)
+    private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, profileImageViewStackView, titleLabel, subheadingLabel, emailTextField, passwordTextField, confirmPasswordTextField, UIView(), createAccountButton], distribution: .fill, spacing: 20)
     
     private lazy var loadingIndicatorStackView = UIStackView.makeHorizontalStackView(with: [UIView(), loadingIndicator, UIView()], distribution: .equalSpacing, spacing: 0)
     
@@ -79,11 +81,11 @@ class RegisterController: UIViewController, UITextFieldDelegate, PHPickerViewCon
     }
     
     private func setupSubviews() {
-        view.addSubview(overallStackView)
+        view.addSubview(elevatedBackground)
+        elevatedBackground.addSubview(overallStackView)
         
-        overallStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        overallStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        overallStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        elevatedBackground.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: view.frame.height * 0.10, rightPadding: 16, bottomPadding: view.frame.height * 0.10, leftPadding: 16, height: 0, width: 0)
+        overallStackView.anchorInCenterOfParent(parentView: elevatedBackground, topPadding: 32, rightPadding: 32, bottomPadding: 32, leftPadding: 32)
     }
     
     private func setupButtonTargets() {
