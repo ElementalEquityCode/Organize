@@ -13,7 +13,7 @@ extension UIButton {
         let button = UIButton(type: .system)
         button.setTitle(text, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17.5, weight: .semibold)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(UIColor.generalActionButtonFontColor, for: .normal)
         button.backgroundColor = UIColor.primaryColor
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false

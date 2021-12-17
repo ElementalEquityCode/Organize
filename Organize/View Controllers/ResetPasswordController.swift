@@ -123,7 +123,7 @@ class ResetPasswordController: UIViewController, UITextFieldDelegate {
             if let error = error {
                 self.present(makeAlertViewController(with: "Error", message: error.localizedDescription), animated: true)
             } else {
-                self.present(makeAlertViewController(with: "Email Sent", message: "An email was sent to \(self.emailTextField.text!) to reset your password", completion: {
+                self.present(makeAlertViewController(with: "Email Sent", message: "An email was sent to \(self.emailTextField.text!) to resetx your password", completion: {
                     self.dismiss(animated: true)
                 }), animated: true)
             }

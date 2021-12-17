@@ -56,5 +56,17 @@ extension UIView {
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }
-
+    
+    static func makeElevatedBackground() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .elevatedBackgroundColor
+        view.layer.cornerRadius = 8
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor.elevatedBackgroundShadowColor.cgColor
+        view.layer.shadowRadius = 15
+        view.layer.shadowOffset = CGSize(width: 0, height: 10)
+        return view
+    }
+    
 }

@@ -13,6 +13,8 @@ class LoginController: UIViewController, UserRegistrationDelegate, UITextFieldDe
     
     // MARK: - Properties
     
+    private let elevatedBackground = UIView.makeElevatedBackground()
+    
     private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, titleLabel, subheadingLabel, emailTextField, passwordTextField, loginButton, forgotPasswordButton, UIView(), registerButton], distribution: .fill, spacing: 20)
     
     private lazy var loadingIndicatorStackView = UIStackView.makeHorizontalStackView(with: [UIView(), loadingIndicator, UIView()], distribution: .equalSpacing, spacing: 0)
@@ -56,9 +58,11 @@ class LoginController: UIViewController, UserRegistrationDelegate, UITextFieldDe
     }
  
     private func setupSubviews() {
-        view.addSubview(overallStackView)
+        view.addSubview(elevatedBackground)
+        elevatedBackground.addSubview(overallStackView)
         
-        overallStackView.anchorInCenterOfParent(parentView: view, topPadding: view.frame.height * 0.25, rightPadding: 20, bottomPadding: 40, leftPadding: 20)
+        elevatedBackground.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: view.frame.height * 0.20, rightPadding: 16, bottomPadding: view.frame.height * 0.20, leftPadding: 16, height: 0, width: 0)
+        overallStackView.anchorInCenterOfParent(parentView: elevatedBackground, topPadding: 32, rightPadding: 32, bottomPadding: 32, leftPadding: 32)
     }
     
     private func setupButtonTargets() {

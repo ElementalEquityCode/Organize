@@ -122,7 +122,7 @@ class ExpandableTextField: UITextField {
         layer.shadowOffset = CGSize(width: 0, height: 5)
         layer.shadowOpacity = 0.4
         
-        textColor = .generalTextFieldTextColor
+        textColor = .generalTextFieldFontColor
         returnKeyType = .done
         textAlignment = .left
         backgroundColor = .primaryColor
