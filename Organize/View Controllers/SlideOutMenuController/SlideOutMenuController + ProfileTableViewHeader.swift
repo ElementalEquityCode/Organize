@@ -48,8 +48,8 @@ class ProfileTableViewHeader: UITableViewHeaderFooterView {
         return label
     }()
         
-    private let borderView = UIView.makeBorderView()
-    
+    private let horizontalBorderView = UIView.makeHorizontalBorderView()
+            
     // MARK: - Initialization
     
     override init(reuseIdentifier: String?) {
@@ -64,19 +64,18 @@ class ProfileTableViewHeader: UITableViewHeaderFooterView {
     
     private func setupSubviews() {
         addSubview(backgroundV)
-        backgroundV.addSubview(borderView)
+        backgroundV.addSubview(horizontalBorderView)
         backgroundV.addSubview(backgroundViewContentView)
         
         backgroundV.anchorInCenterOfParent(parentView: self, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         
-        borderView.anchor(topAnchor: nil, rightAnchor: backgroundV.trailingAnchor, bottomAnchor: backgroundV.bottomAnchor, leftAnchor: backgroundV.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
+        horizontalBorderView.anchor(topAnchor: nil, rightAnchor: backgroundV.trailingAnchor, bottomAnchor: backgroundV.bottomAnchor, leftAnchor: backgroundV.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
         
-        backgroundViewContentView.anchor(topAnchor: backgroundV.topAnchor, rightAnchor: backgroundV.trailingAnchor, bottomAnchor: borderView.topAnchor, leftAnchor: backgroundV.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
+        backgroundViewContentView.anchor(topAnchor: backgroundV.topAnchor, rightAnchor: backgroundV.trailingAnchor, bottomAnchor: horizontalBorderView.topAnchor, leftAnchor: backgroundV.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
         
         backgroundViewContentView.addSubview(emailLabelContainerView)
                 
         emailLabelContainerView.anchor(topAnchor: backgroundViewContentView.topAnchor, rightAnchor: backgroundViewContentView.trailingAnchor, bottomAnchor: backgroundViewContentView.bottomAnchor, leftAnchor: backgroundViewContentView.leadingAnchor, topPadding: 16, rightPadding: 24, bottomPadding: 16, leftPadding: 24, height: 0, width: 0)
-        
     }
     
 }

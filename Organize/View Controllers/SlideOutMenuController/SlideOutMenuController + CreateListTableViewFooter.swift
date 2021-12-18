@@ -18,31 +18,13 @@ class CreateListTableViewFooter: UITableViewHeaderFooterView {
         return backgroundV
     }()
     
-    private let backgroundViewContentView: UIView = {
-        let backgroundViewContentView = UIView()
-        backgroundViewContentView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundViewContentView.backgroundColor = .clear
-        return backgroundViewContentView
+    let createNewListButton: UIButton = {
+        let button = UIButton.makeGeneralActionButton(with: "Create new list")
+        button.backgroundColor = UIColor.secondaryColor
+        return button
     }()
     
-    private lazy var overallStackView = UIStackView.makeHorizontalStackView(with: [createNewListImageView, createNewListLabel], distribution: .fill, spacing: 10)
-    
-    private let createNewListImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "folder.badge.plus"))
-        imageView.tintColor = .white
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        return imageView
-    }()
-        
-    private let createNewListLabel: UILabel = {
-        let label = UILabel.makeParagraphLabel(with: "Create new list")
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 17.5, weight: .medium)
-        return label
-    }()
+    private let horizontalBorderView = UIView.makeHorizontalBorderView()
     
     // MARK: - Initialization
     
@@ -58,14 +40,14 @@ class CreateListTableViewFooter: UITableViewHeaderFooterView {
     
     private func setupSubviews() {
         addSubview(backgroundV)
-        backgroundV.addSubview(backgroundViewContentView)
-        backgroundViewContentView.addSubview(overallStackView)
+        backgroundV.addSubview(horizontalBorderView)
+        backgroundV.addSubview(createNewListButton)
         
         backgroundV.anchorInCenterOfParent(parentView: self, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         
-        backgroundViewContentView.anchorInCenterOfParent(parentView: backgroundV, topPadding: 20, rightPadding: 40, bottomPadding: 20, leftPadding: 45)
+        horizontalBorderView.anchor(topAnchor: backgroundV.topAnchor, rightAnchor: backgroundV.trailingAnchor, bottomAnchor: nil, leftAnchor: backgroundV.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
         
-        overallStackView.anchorInCenterOfParent(parentView: backgroundViewContentView, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
+        createNewListButton.anchor(topAnchor: backgroundV.topAnchor, rightAnchor: backgroundV.trailingAnchor, bottomAnchor: backgroundV.bottomAnchor, leftAnchor: backgroundV.leadingAnchor, topPadding: 16, rightPadding: 24, bottomPadding: 16, leftPadding: 24, height: 0, width: 0)
     }
     
 }

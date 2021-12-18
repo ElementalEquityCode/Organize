@@ -14,6 +14,7 @@ extension SlideOutMenuController {
         tableView.register(ProfileTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "profile-cell")
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "list-cell")
         tableView.register(CreateListTableViewFooter.self, forHeaderFooterViewReuseIdentifier: "create-list-cell")
+        tableView.register(ListLabelCell.self, forCellReuseIdentifier: "list-label-cell")
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = UITableView.automaticDimension
@@ -23,7 +24,18 @@ extension SlideOutMenuController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        selectListDelegate?.didSelectList(list: toDoItemLists[indexPath.row])
+        if indexPath.row != 0 {
+            if let indexPathOfPreviouslySelectedRow = indexPathOfPreviouslySelectedRow {
+                if let previouslySelectedCell = tableView.cellForRow(at: indexPathOfPreviouslySelectedRow) {
+                    previouslySelectedCell.isSelected = false
+                }
+            }
+            
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.isSelected = true
+            indexPathOfPreviouslySelectedRow = indexPath
+            selectListDelegate?.didSelectList(list: toDoItemLists[indexPath.row - 1])
+        }
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -47,23 +59,27 @@ extension SlideOutMenuController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "list-cell", for: indexPath) as? ListTableViewCell {
-            cell.selectionStyle = .none
-            cell.separatorInset = UIEdgeInsets.zero
-            
-            if !toDoItemLists.isEmpty {
-                cell.listNameLabel.text = toDoItemLists[indexPath.row].name
+        if indexPath.row == 0 {
+            return tableView.dequeueReusableCell(withIdentifier: "list-label-cell", for: indexPath)
+        } else {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "list-cell", for: indexPath) as? ListTableViewCell {
+                cell.selectionStyle = .none
+                cell.separatorInset = UIEdgeInsets.zero
+                
+                if !toDoItemLists.isEmpty {
+                    cell.listNameLabel.text = toDoItemLists[indexPath.row - 1].name
+                }
+                
+                return cell
             }
-            
-            return cell
         }
+        
         return tableView.dequeueReusableCell(withIdentifier: "list-cell", for: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "create-list-cell") as? CreateListTableViewFooter {
-            cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCreateNewListTap)))
-            
+            cell.createNewListButton.addTarget(self, action: #selector(handleCreateNewListTap), for: .touchUpInside)
             return cell
         }
         return tableView.dequeueReusableHeaderFooterView(withIdentifier: "create-list-cell")
@@ -72,7 +88,7 @@ extension SlideOutMenuController {
     // MARK: - UITableViewDataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return toDoItemLists.count
+        return toDoItemLists.count + 1
     }
     
 }

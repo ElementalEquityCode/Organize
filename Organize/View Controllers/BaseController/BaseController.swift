@@ -59,12 +59,14 @@ class BaseController: UIViewController {
         return view
     }()
     
+    private let verticalBorderView = UIView.makeVerticalBorderView()
+    
     // MARK: - Initialization
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .elevatedBackgroundColor
+        view.backgroundColor = .slideOutMenuControllerBackgroundColor
         setupSubviews()
         setupGestureRecognizers()
     }
@@ -86,11 +88,15 @@ class BaseController: UIViewController {
     
     private func setupSlideOutMenuController() {
         slideOutMenuControllerContainer.addSubview(slideOutMenuController.view)
+        slideOutMenuControllerContainer.addSubview(verticalBorderView)
         addChild(slideOutMenuController)
         slideOutMenuController.didMove(toParent: self)
         
         slideOutMenuController.view.translatesAutoresizingMaskIntoConstraints = false
         slideOutMenuController.view.anchor(topAnchor: slideOutMenuControllerContainer.topAnchor, rightAnchor: slideOutMenuControllerContainer.trailingAnchor, bottomAnchor: slideOutMenuControllerContainer.bottomAnchor, leftAnchor: slideOutMenuControllerContainer.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
+        
+
+        verticalBorderView.anchor(topAnchor: slideOutMenuControllerContainer.topAnchor, rightAnchor: slideOutMenuControllerContainer.trailingAnchor, bottomAnchor: slideOutMenuControllerContainer.bottomAnchor, leftAnchor: nil, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
     }
     
     private func setupGestureRecognizers() {

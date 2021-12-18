@@ -157,13 +157,16 @@ extension HomeController: CreateListDelegate {
         var indexPaths = [IndexPath]()
         
         for row in 0...toDoItemLists.count - 1 {
-            indexPaths.append(IndexPath(row: row, section: 0))
+            indexPaths.append(IndexPath(row: row + 1, section: 0))
         }
         
         baseController.slideOutMenuController.tableView.insertRows(at: indexPaths, with: .automatic)
         
-        if let firstIndexPath = indexPaths.first {
-            baseController.slideOutMenuController.tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .top)
+        if indexPaths.count > 1 {
+            if let row = baseController.slideOutMenuController.tableView.cellForRow(at: indexPaths[0]) {
+                row.isSelected = true
+                baseController.slideOutMenuController.indexPathOfPreviouslySelectedRow = indexPaths[0]
+            }
         }
     }
     
@@ -176,7 +179,7 @@ extension HomeController: CreateListDelegate {
         
         baseController.animateMenu(to: .closed)
         
-        currentlyViewedList = self.toDoItemLists[self.toDoItemLists.count - 1]
+        currentlyViewedList = toDoItemLists.last
         toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
         
         let indexPath = IndexPath(item: toDoItemLists.count - 1, section: 0)
@@ -199,7 +202,7 @@ extension HomeController: CreateListDelegate {
                 toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
                 
                 listCollectionViewController.collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
-                parentController.slideOutMenuController.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                parentController.slideOutMenuController.tableView.deleteRows(at: [IndexPath(row: index + 1, section: 0)], with: .automatic)
             }
         }
     }

@@ -67,7 +67,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     private let searchForTaskButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setBackgroundImage(UIImage(named: "magnifyingglass.circle"), for: .normal)
+        button.setBackgroundImage(UIImage(named: "magnifyingglass"), for: .normal)
         button.imageView!.contentMode = .scaleAspectFill
         button.imageView!.translatesAutoresizingMaskIntoConstraints = false
         button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
@@ -81,7 +81,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     private let editListButton: UIButton = {
         let button = UIButton(type: .system)
         button.isEnabled = false
-        button.setBackgroundImage(UIImage(named: "pencil.circle"), for: .normal)
+        button.setBackgroundImage(UIImage(named: "pencil"), for: .normal)
         button.imageView!.contentMode = .scaleAspectFill
         button.imageView!.translatesAutoresizingMaskIntoConstraints = false
         button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
@@ -639,12 +639,18 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                     self.baseController.slideOutMenuController.toDoItemLists.remove(at: listIndex)
                     
                     self.listCollectionViewController.collectionView.reloadSections(IndexSet(integer: 0))
-                    self.baseController.slideOutMenuController.tableView.deleteRows(at: [IndexPath(row: listIndex, section: 0)], with: .automatic)
+                    self.baseController.slideOutMenuController.tableView.deleteRows(at: [IndexPath(row: listIndex + 1, section: 0)], with: .automatic)
+                    
+                    if let indexPathOfPreviouslySelectedRow =  self.baseController.slideOutMenuController.indexPathOfPreviouslySelectedRow {
+                        self.baseController.slideOutMenuController.tableView.cellForRow(at: IndexPath(row: indexPathOfPreviouslySelectedRow.row, section: 0))?.isSelected = false
+                    }
                     
                     if !self.toDoItemLists.isEmpty {
                         self.currentlyViewedList = self.toDoItemLists[0]
                         self.toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
                         self.listCollectionViewController.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
+                        self.baseController.slideOutMenuController.tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.isSelected = true
+                        self.baseController.slideOutMenuController.indexPathOfPreviouslySelectedRow = IndexPath(row: 1, section: 0)
                     } else {
                         self.currentlyViewedList = nil
                         self.listTasksLabel.text = ""

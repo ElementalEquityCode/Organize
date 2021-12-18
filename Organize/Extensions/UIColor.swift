@@ -24,10 +24,12 @@ extension UIColor {
     static let elevatedBackgroundColor = UIColor { (traitCollection: UITraitCollection) in
         return traitCollection.userInterfaceStyle == .light ? .white : UIColor(red: 17/255, green: 24/255, blue: 39/255, alpha: 1)
     }
+    
+    static let slideOutMenuControllerBackgroundColor = UIColor(red: 17/255, green: 24/255, blue: 39/255, alpha: 1)
         
     static let primaryColor = UIColor(red: 117/255, green: 130/255, blue: 235/255, alpha: 1)
     
-    static let secondaryColor = UIColor(red: 218/255, green: 45/255, blue: 245/255, alpha: 1)
+    static let secondaryColor = UIColor(red: 16/255, green: 185/255, blue: 129/255, alpha: 1)
     
     static let titleLabelFontColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in
         return traitCollection.userInterfaceStyle == .light ? UIColor(red: 18/255, green: 24/255, blue: 40/255, alpha: 1) : UIColor(red: 237/255, green: 242/255, blue: 247/255, alpha: 1)

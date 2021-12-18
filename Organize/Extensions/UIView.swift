@@ -49,11 +49,19 @@ extension UIView {
         }
     }
     
-    static func makeBorderView() -> UIView {
+    static func makeHorizontalBorderView() -> UIView {
         let view = UIView()
         view.backgroundColor = UIColor(red: 45/255, green: 55/255, blue: 72/255, alpha: 1)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        return view
+    }
+    
+    static func makeVerticalBorderView() -> UIView {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 45/255, green: 55/255, blue: 72/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.widthAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }
     

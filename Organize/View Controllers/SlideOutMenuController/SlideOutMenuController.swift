@@ -15,6 +15,8 @@ class SlideOutMenuController: UITableViewController {
     
     // MARK: - Properties
     
+    var indexPathOfPreviouslySelectedRow: IndexPath?
+    
     unowned let baseController: BaseController
     
     weak var createListDelegate: CreateListDelegate?
@@ -70,9 +72,7 @@ class SlideOutMenuController: UITableViewController {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 
         let alertViewController = UIAlertController(title: "Create a new List", message: "Enter a name for your new list", preferredStyle: .alert)
-        
-        alertViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
+                
         alertViewController.addAction(UIAlertAction(title: "Create", style: .default, handler: { (_) in
             if let textField = alertViewController.textFields?[0] {
                 if !textField.text!.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -83,8 +83,15 @@ class SlideOutMenuController: UITableViewController {
                         let path = Firestore.firestore().collection("users").document(user.uid).collection("to_do_items").document(uuid)
                         
                         self.toDoItemLists.append(toDoItemList)
-                        self.tableView.insertRows(at: [IndexPath(row: self.toDoItemLists.count - 1, section: 0)], with: .automatic)
-                        self.tableView.selectRow(at: IndexPath(row: self.toDoItemLists.count - 1, section: 0), animated: true, scrollPosition: .top)
+                        self.tableView.insertRows(at: [IndexPath(row: self.toDoItemLists.count, section: 0)], with: .automatic)
+                        self.tableView.selectRow(at: IndexPath(row: self.toDoItemLists.count, section: 0), animated: true, scrollPosition: .top)
+                        self.tableView.cellForRow(at: IndexPath(row: self.toDoItemLists.count, section: 0))?.isSelected = true
+                        
+                        if let indexPathOfPreviouslySelectedRow = self.indexPathOfPreviouslySelectedRow {
+                            self.tableView.cellForRow(at: IndexPath(row: indexPathOfPreviouslySelectedRow.row, section: 0))?.isSelected = false
+                        }
+                        
+                        self.indexPathOfPreviouslySelectedRow? = IndexPath(row: self.toDoItemLists.count, section: 0)
                         
                         toDoItemList.path = path
                         
@@ -95,6 +102,8 @@ class SlideOutMenuController: UITableViewController {
                 }
             }
         }))
+        
+        alertViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
         alertViewController.addTextField { (textField) in
             textField.autocorrectionType = .yes
