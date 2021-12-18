@@ -51,7 +51,7 @@ extension UIView {
     
     static func makeBorderView() -> UIView {
         let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        view.backgroundColor = UIColor(red: 45/255, green: 55/255, blue: 72/255, alpha: 1)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view

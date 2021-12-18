@@ -64,7 +64,7 @@ class BaseController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .baseViewControllerBackgroundColor
+        view.backgroundColor = .elevatedBackgroundColor
         setupSubviews()
         setupGestureRecognizers()
     }

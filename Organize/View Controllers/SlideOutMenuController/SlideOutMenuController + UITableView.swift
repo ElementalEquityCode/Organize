@@ -14,8 +14,7 @@ extension SlideOutMenuController {
         tableView.register(ProfileTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "profile-cell")
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "list-cell")
         tableView.register(CreateListTableViewFooter.self, forHeaderFooterViewReuseIdentifier: "create-list-cell")
-        tableView.separatorStyle = .singleLine
-        tableView.separatorColor = UIColor.black.withAlphaComponent(0.3)
+        tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = UITableView.automaticDimension
     }
@@ -29,12 +28,17 @@ extension SlideOutMenuController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "profile-cell") as? ProfileTableViewHeader {
-            cell.closeMenuButton.addTarget(self, action: #selector(closeMenu), for: .touchUpInside)
-            cell.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfileImageView)))
                         
             if let user = Auth.auth().currentUser, let email = user.email {
                 cell.emailLabel.text = email
-                cell.logoutButton.addTarget(self, action: #selector(handleSignout), for: .touchUpInside)
+                
+                let attributedString1 = NSAttributedString(string: email)
+                let attributedString2 = NSAttributedString(string: "\nYour Tier: Free", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17.5, weight: .regular), NSAttributedString.Key.foregroundColor: UIColor(red: 156/255, green: 163/255, blue: 175/255, alpha: 1), NSAttributedString.Key.baselineOffset: -10])
+                let mutableStringArray = NSMutableAttributedString()
+                mutableStringArray.append(attributedString1)
+                mutableStringArray.append(attributedString2)
+                
+                cell.emailLabel.attributedText = mutableStringArray
             }
             
             return cell

@@ -175,7 +175,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .secondaryBackgroundColor
+        view.backgroundColor = .primaryBackgroundColor
         setupSubviews()
         setupToolbar()
         setSubviewsToInvisible()

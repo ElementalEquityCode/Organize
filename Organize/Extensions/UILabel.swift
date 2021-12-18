@@ -42,7 +42,7 @@ extension UILabel {
     static func makeNameLabel() -> UILabel {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 30, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
