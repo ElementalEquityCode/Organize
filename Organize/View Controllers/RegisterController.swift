@@ -21,7 +21,7 @@ class RegisterController: UIViewController, UITextFieldDelegate, PHPickerViewCon
     
     var didSetProfileImage = false
     
-    private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, profileImageViewStackView, titleLabel, subheadingLabel, emailTextField, passwordTextField, confirmPasswordTextField, UIView(), createAccountButton], distribution: .fill, spacing: 20)
+    private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, profileImageViewStackView, titleLabel, subheadingLabel, emailTextField, passwordTextField, confirmPasswordTextField, createAccountButton], distribution: .fill, spacing: 20)
     
     private lazy var loadingIndicatorStackView = UIStackView.makeHorizontalStackView(with: [UIView(), loadingIndicator, UIView()], distribution: .equalSpacing, spacing: 0)
     

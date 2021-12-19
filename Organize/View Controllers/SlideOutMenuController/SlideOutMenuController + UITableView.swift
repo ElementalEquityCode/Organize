@@ -23,8 +23,8 @@ extension SlideOutMenuController {
     // MARK: - UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         if indexPath.row != 0 {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             if let indexPathOfPreviouslySelectedRow = indexPathOfPreviouslySelectedRow {
                 if let previouslySelectedCell = tableView.cellForRow(at: indexPathOfPreviouslySelectedRow) {
                     previouslySelectedCell.isSelected = false

@@ -200,7 +200,7 @@ class LoginController: UIViewController, UserRegistrationDelegate, UITextFieldDe
             guard let animationDuration = notificationData["UIKeyboardAnimationDurationUserInfoKey"] as? Double else { return }
             guard let keyboardFrame = notificationData["UIKeyboardFrameEndUserInfoKey"] as? CGRect else { return }
             
-            let maxY = overallStackView.convert(loginButton.frame, to: self.view).maxY
+            let maxY = overallStackView.convert(registerButton.frame, to: self.view).maxY
             
             if keyboardOpenCount == 1 && (maxY > (view.frame.height - keyboardFrame.height) - 70) {
                 performOpenKeyboardAnimation(moving: view, animationDuration, -(maxY - (view.frame.height - keyboardFrame.height)) - 70)

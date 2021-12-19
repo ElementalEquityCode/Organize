@@ -45,8 +45,28 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     }
         
     lazy var menuSwipeLimit = view.frame.width * 0.6
+    
+    private let headerIconsNavigationBarContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .elevatedBackgroundColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        let borderView = UIView.makeHorizontalBorderView()
+        view.addSubview(borderView)
+        
+        borderView.anchor(topAnchor: nil, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
+        
+        return view
+    }()
                 
-    private lazy var headerIconsNavigationBar = UIStackView.makeHorizontalStackView(with: [UIStackView.makeVerticalStackView(with: [UIView(), slideOutControllerButton, UIView()], distribution: .equalSpacing, spacing: 0), UIView(), UIStackView.makeVerticalStackView(with: [UIView(), searchForTaskButton, UIView()], distribution: .equalSpacing, spacing: 0), UIStackView.makeVerticalStackView(with: [UIView(), editListButton, UIView()], distribution: .equalSpacing, spacing: 0), profileButton], distribution: .fill, spacing: 15)
+    private lazy var headerIconsNavigationBar =
+        UIStackView.makeHorizontalStackView(with: [
+            UIStackView.makeVerticalStackView(with: [UIView(), slideOutControllerButton, UIView()], distribution: .equalSpacing, spacing: 15),
+            UIView(),
+            UIStackView.makeVerticalStackView(with: [UIView(), searchForTaskButton, UIView()], distribution: .equalSpacing, spacing: 15),
+            UIStackView.makeVerticalStackView(with: [UIView(), editListButton, UIView()], distribution: .equalSpacing, spacing: 15),
+            profileButton
+        ], distribution: .fill, spacing: 15)
         
     private let slideOutControllerButton: UIButton = {
         let button = UIButton(type: .system)
@@ -70,6 +90,9 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     private let searchForTaskButton: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(named: "magnifyingglass"), for: .normal)
+        button.imageView!.contentMode = .scaleAspectFill
+        button.imageView!.translatesAutoresizingMaskIntoConstraints = false
+        button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         button.tintColor = .titleLabelFontColor
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -79,8 +102,10 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     private let editListButton: UIButton = {
         let button = UIButton(type: .system)
-        button.isEnabled = false
         button.setBackgroundImage(UIImage(named: "pencil"), for: .normal)
+        button.imageView!.contentMode = .scaleAspectFill
+        button.imageView!.translatesAutoresizingMaskIntoConstraints = false
+        button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         button.tintColor = .titleLabelFontColor
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -214,7 +239,8 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     }
  
     private func setupSubviews() {
-        view.addSubview(headerIconsNavigationBar)
+        view.addSubview(headerIconsNavigationBarContainerView)
+        headerIconsNavigationBarContainerView.addSubview(headerIconsNavigationBar)
         view.addSubview(listsLabel)
         view.addSubview(toDoItemsCollectionView)
         view.addSubview(listTasksLabel)
@@ -222,8 +248,10 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         view.addSubview(menuGradientView)
         view.addSubview(addTaskTextField)
         
-        headerIconsNavigationBar.anchorToTopOfViewController(parentView: view, topPadding: 30, rightPadding: 30, leftPadding: 30, height: 60)
+        headerIconsNavigationBarContainerView.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 80 + UIApplication.shared.windows[0].safeAreaInsets.top, width: 0)
         
+        headerIconsNavigationBar.anchor(topAnchor: nil, rightAnchor: headerIconsNavigationBarContainerView.trailingAnchor, bottomAnchor: headerIconsNavigationBarContainerView.bottomAnchor, leftAnchor: headerIconsNavigationBarContainerView.leadingAnchor, topPadding: 0, rightPadding: 30, bottomPadding: 10, leftPadding: 30, height: 0, width: 0)
+
         listsLabel.anchor(topAnchor: headerIconsNavigationBar.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 20, rightPadding: 20, bottomPadding: 20, leftPadding: 30, height: 0, width: 0)
                 
         toDoItemsCollectionView.anchor(topAnchor: view.centerYAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: -view.frame.height * 0.075, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
