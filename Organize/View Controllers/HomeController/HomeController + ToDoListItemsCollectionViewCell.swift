@@ -58,7 +58,7 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
     
     private lazy var taskNameLabelAndDueDateLabelStackView = UIStackView.makeVerticalStackView(with: [taskNameLabel, dueDateLabel], distribution: .equalSpacing, spacing: 0)
     
-    private let taskNameLabel: UILabel = {
+    let taskNameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
@@ -151,7 +151,7 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
     
     private func performTaskLabelAnimation(with value: Bool) {
         UIView.transition(with: taskNameLabel, duration: 0.25, options: .transitionCrossDissolve) {
-            self.taskNameLabel.attributedText = value ? NSAttributedString(string: self.taskNameLabel.text!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.foregroundColor: UIColor.paragraphTextColor.withAlphaComponent(0.75), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .regular)]) : NSAttributedString(string: self.taskNameLabel.text!, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .regular)])
+            self.taskNameLabel.attributedText = value ? NSAttributedString(string: self.taskNameLabel.text!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.foregroundColor: UIColor.paragraphTextColor.withAlphaComponent(0.75), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .regular)]) : NSAttributedString(string: self.taskNameLabel.text!, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .regular), NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.byWord.rawValue, NSAttributedString.Key.foregroundColor: UIColor.paragraphTextColor])
         }
     }
     

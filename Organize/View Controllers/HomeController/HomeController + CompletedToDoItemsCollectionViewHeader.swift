@@ -9,8 +9,12 @@ import UIKit
 
 class CompletedToDoItemsCollectionViewHeader: UICollectionViewCell {
     
-    // MARK: - Initialization
+    // MARK: - Properties
     
+    let label = UILabel.makeSubheadingLabel(with: "COMPLETED ITEMS")
+    
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -22,7 +26,6 @@ class CompletedToDoItemsCollectionViewHeader: UICollectionViewCell {
     }
     
     private func setupSubviews() {
-        let label = UILabel.makeSubheadingLabel(with: "COMPLETED ITEMS")
         label.textAlignment = .left
         
         addSubview(label)

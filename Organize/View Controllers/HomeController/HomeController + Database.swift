@@ -139,23 +139,9 @@ extension HomeController: CreateListDelegate {
     // MARK: - Updating the UI For the data fetched from the database
     
     private func didFinishFetchingItemsFromDatabase() {
-        insertItemsIntoListCollectionView()
         updateToDoItemsCollectionViewWithFirstList()
         insertItemsIntoSlideOutMenuController()
         animateSubviews()
-    }
-    
-    private func insertItemsIntoListCollectionView() {
-        listCollectionViewController.toDoItemLists = toDoItemLists
-        listCollectionViewController.hasProgressAlreadyAnimatedCache = Array(repeating: false, count: toDoItemLists.count)
-        
-        var indexPaths = [IndexPath]()
-        
-        for item in 0...toDoItemLists.count - 1 {
-            indexPaths.append(IndexPath(item: item, section: 0))
-        }
-        
-        listCollectionViewController.collectionView.insertItems(at: indexPaths)
     }
     
     private func updateToDoItemsCollectionViewWithFirstList() {
@@ -191,11 +177,8 @@ extension HomeController: CreateListDelegate {
         
         baseController.slideOutMenuController.tableView.insertRows(at: indexPaths, with: .automatic)
         
-        if indexPaths.count > 1 {
-            if let row = baseController.slideOutMenuController.tableView.cellForRow(at: indexPaths[0]) {
-                row.isSelected = true
-                baseController.slideOutMenuController.indexPathOfPreviouslySelectedRow = indexPaths[0]
-            }
+        if !indexPaths.isEmpty {
+            baseController.slideOutMenuController.indexPathOfPreviouslySelectedRow = indexPaths[0]
         }
     }
     
@@ -203,17 +186,11 @@ extension HomeController: CreateListDelegate {
     
     func didCreateNewList(list: ToDoItemList) {
         toDoItemLists.append(list)
-        listCollectionViewController.toDoItemLists.append(list)
-        listCollectionViewController.hasProgressAlreadyAnimatedCache.append(false)
         
         baseController.animateMenu(to: .closed)
         
         currentlyViewedList = toDoItemLists.last
         toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
-        
-        let indexPath = IndexPath(item: toDoItemLists.count - 1, section: 0)
-        listCollectionViewController.collectionView.insertItems(at: [indexPath])
-        listCollectionViewController.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
     func didDeleteList(deletedList: ToDoItemList) {
@@ -223,14 +200,12 @@ extension HomeController: CreateListDelegate {
         
         if let index = indexOfDeletedList {
             toDoItemLists.remove(at: index)
-            listCollectionViewController.toDoItemLists.remove(at: index)
             parentController.slideOutMenuController.toDoItemLists.remove(at: index)
             
             if !toDoItemLists.isEmpty {
                 currentlyViewedList = toDoItemLists[0]
                 toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
                 
-                listCollectionViewController.collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
                 parentController.slideOutMenuController.tableView.deleteRows(at: [IndexPath(row: index + 1, section: 0)], with: .automatic)
             }
         }

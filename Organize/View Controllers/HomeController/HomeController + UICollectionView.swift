@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -59,7 +61,7 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
                     cell.animateCheckmarkView(isHidden: false)
                 }
             }
-                            
+
             if currentlyViewedList != nil {
                 if let index = toDoItemLists.firstIndex(of: currentlyViewedList!) {
                     cell.checkMarkView.primaryColorForCell = index % 2 == 0 ? .primaryColor : .secondaryColor
@@ -102,7 +104,6 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
                     }
                     
                     self.toDoItemsCollectionView.deleteItems(at: [indexPath])
-                    self.progressViewShouldAnimate()
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Close", style: .cancel))
@@ -113,7 +114,7 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
     // MARK: - UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 0, bottom: section == 0 ? 10 : 10 + toolBar.frame.height, right: 0)
+        return UIEdgeInsets(top: section == 0 ? 0 : 10, left: 0, bottom: section == 0 ? 10 : 10 + toolBar.frame.height, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

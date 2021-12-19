@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 extension SlideOutMenuController {
     
@@ -31,8 +32,6 @@ extension SlideOutMenuController {
                 }
             }
             
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = true
             indexPathOfPreviouslySelectedRow = indexPath
             selectListDelegate?.didSelectList(list: toDoItemLists[indexPath.row - 1])
         }
@@ -69,7 +68,6 @@ extension SlideOutMenuController {
                 if !toDoItemLists.isEmpty {
                     cell.listNameLabel.text = toDoItemLists[indexPath.row - 1].name
                 }
-                
                 return cell
             }
         }

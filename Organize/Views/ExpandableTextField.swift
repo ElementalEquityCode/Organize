@@ -124,6 +124,7 @@ class ExpandableTextField: UITextField {
         layer.cornerRadius = 30
         textAlignment = .center
         autocorrectionType = .yes
+        autocapitalizationType = .sentences
         
         attributedPlaceholder = NSAttributedString(string: "+", attributes: [NSAttributedString.Key.foregroundColor: UIColor.generalActionButtonFontColor, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 40, weight: .thin), NSAttributedString.Key.baselineOffset: 1])
         

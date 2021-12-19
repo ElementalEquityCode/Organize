@@ -37,8 +37,6 @@ extension BaseController {
         if gesture.state == .changed {
             homeControllerContainer.transform = CGAffineTransform(translationX: translationX, y: 0)
             slideOutMenuControllerContainer.transform = CGAffineTransform(translationX: translationX, y: 0)
-                        
-            self.homeController.listCollectionViewController.collectionViewLayout.invalidateLayout()
         } else if gesture.state == .ended {
             if velocity >= 40 && menuState == .closed {
                 animateMenu(to: .opened)
@@ -76,8 +74,6 @@ extension BaseController {
             self.view.layoutIfNeeded()
 
             self.homeController.menuGradientView.alpha = state == .opened ? 0.35 : 0
-            
-            self.homeController.listCollectionViewController.collectionViewLayout.invalidateLayout()
         }
     }
     

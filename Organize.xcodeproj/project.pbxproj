@@ -36,9 +36,6 @@
 		1E87647626AA10D000D33C43 /* HomeController + Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87647526AA10D000D33C43 /* HomeController + Database.swift */; };
 		1E87647926AA15C500D33C43 /* HomeController + ToDoListItemsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87647826AA15C500D33C43 /* HomeController + ToDoListItemsCollectionViewCell.swift */; };
 		1E87647C26AA167900D33C43 /* HomeController + UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87647B26AA167900D33C43 /* HomeController + UICollectionView.swift */; };
-		1E87648126AA20F700D33C43 /* ToDoItemListCollectionViewController + ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87648026AA20F700D33C43 /* ToDoItemListCollectionViewController + ListCollectionViewCell.swift */; };
-		1E87648426AA212000D33C43 /* ToDoItemListCollectionViewController + UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87648326AA212000D33C43 /* ToDoItemListCollectionViewController + UICollectionView.swift */; };
-		1E87648A26AA2BE400D33C43 /* UIProgressViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E87648926AA2BE400D33C43 /* UIProgressViewDelegates.swift */; };
 		1E9473352711ED5A0075356E /* IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9473342711ED5A0075356E /* IndexPath.swift */; };
 		1EBDD434269F7D2B002BB066 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBDD433269F7D2B002BB066 /* AppDelegate.swift */; };
 		1EBDD436269F7D2B002BB066 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBDD435269F7D2B002BB066 /* SceneDelegate.swift */; };
@@ -51,7 +48,6 @@
 		1EDA07052724997E007BB315 /* SearchForTaskController + UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDA07042724997E007BB315 /* SearchForTaskController + UICollectionView.swift */; };
 		1EE63AD226BB7F0B009E983B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1EE63AD126BB7F0B009E983B /* .swiftlint.yml */; };
 		1EED7F3626A269F400AFE7F5 /* UIActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EED7F3526A269F400AFE7F5 /* UIActivityIndicatorView.swift */; };
-		1EF3DAF826A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF3DAF726A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift */; };
 		1EF921CA26A45B3C00D189C9 /* ToDoItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF921C926A45B3C00D189C9 /* ToDoItemList.swift */; };
 		1EFB38EA26B8E2E800BFC795 /* CreateItemDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB38E926B8E2E800BFC795 /* CreateItemDelegate.swift */; };
 		1EFFCAF5269FDDAC006BF8F6 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFFCAF4269FDDAC006BF8F6 /* RegisterController.swift */; };
@@ -92,9 +88,6 @@
 		1E87647526AA10D000D33C43 /* HomeController + Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeController + Database.swift"; sourceTree = "<group>"; };
 		1E87647826AA15C500D33C43 /* HomeController + ToDoListItemsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeController + ToDoListItemsCollectionViewCell.swift"; sourceTree = "<group>"; };
 		1E87647B26AA167900D33C43 /* HomeController + UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeController + UICollectionView.swift"; sourceTree = "<group>"; };
-		1E87648026AA20F700D33C43 /* ToDoItemListCollectionViewController + ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoItemListCollectionViewController + ListCollectionViewCell.swift"; sourceTree = "<group>"; };
-		1E87648326AA212000D33C43 /* ToDoItemListCollectionViewController + UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoItemListCollectionViewController + UICollectionView.swift"; sourceTree = "<group>"; };
-		1E87648926AA2BE400D33C43 /* UIProgressViewDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProgressViewDelegates.swift; sourceTree = "<group>"; };
 		1E9473342711ED5A0075356E /* IndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexPath.swift; sourceTree = "<group>"; };
 		1EBDD430269F7D2B002BB066 /* Organize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Organize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EBDD433269F7D2B002BB066 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -109,7 +102,6 @@
 		1EDA07042724997E007BB315 /* SearchForTaskController + UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchForTaskController + UICollectionView.swift"; sourceTree = "<group>"; };
 		1EE63AD126BB7F0B009E983B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		1EED7F3526A269F400AFE7F5 /* UIActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIActivityIndicatorView.swift; sourceTree = "<group>"; };
-		1EF3DAF726A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemListCollectionViewController.swift; sourceTree = "<group>"; };
 		1EF921C926A45B3C00D189C9 /* ToDoItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemList.swift; sourceTree = "<group>"; };
 		1EFB38E926B8E2E800BFC795 /* CreateItemDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemDelegate.swift; sourceTree = "<group>"; };
 		1EFFCAF4269FDDAC006BF8F6 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
@@ -245,7 +237,6 @@
 				1EFFCAF4269FDDAC006BF8F6 /* RegisterController.swift */,
 				1E51096426AF6A83009EF01C /* HomeController */,
 				1E47565426A1068100334B13 /* SlideOutMenuController */,
-				1EF3DAF626A8B1EF003537E2 /* ToDoItemListCollectionView */,
 				1ED61E3026B344E5008011D7 /* EditToDoItemController.swift */,
 				1EDA070327249954007BB315 /* SearchForTaskController */,
 			);
@@ -271,16 +262,6 @@
 			path = SearchForTaskController;
 			sourceTree = "<group>";
 		};
-		1EF3DAF626A8B1EF003537E2 /* ToDoItemListCollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				1EF3DAF726A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift */,
-				1E87648326AA212000D33C43 /* ToDoItemListCollectionViewController + UICollectionView.swift */,
-				1E87648026AA20F700D33C43 /* ToDoItemListCollectionViewController + ListCollectionViewCell.swift */,
-			);
-			path = ToDoItemListCollectionView;
-			sourceTree = "<group>";
-		};
 		1EFFCB01269FE2E9006BF8F6 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,7 +272,6 @@
 				1ED61E3426B35B3F008011D7 /* EditToDoItemDelegate.swift */,
 				1E29BDC126A4F2AC004EE106 /* SelectListDelegate.swift */,
 				1EFFCB02269FE30B006BF8F6 /* UserRegistrationDelegate.swift */,
-				1E87648926AA2BE400D33C43 /* UIProgressViewDelegates.swift */,
 				1E3B6B2D2710CC110008B1B5 /* CompletionStatusDelegate.swift */,
 			);
 			path = Protocols;
@@ -467,15 +447,12 @@
 				1E5E14CD269F9A5E005C7C37 /* GeneralTextField.swift in Sources */,
 				1E168D1C26AB81BB00D4836B /* SlideOutMenuController + ProfileTableViewHeader.swift in Sources */,
 				1E168D1326AB810400D4836B /* SlideOutMenuController + UITableView.swift in Sources */,
-				1E87648A26AA2BE400D33C43 /* UIProgressViewDelegates.swift in Sources */,
-				1E87648426AA212000D33C43 /* ToDoItemListCollectionViewController + UICollectionView.swift in Sources */,
 				1E5E14C2269F82EE005C7C37 /* UIViewController.swift in Sources */,
 				1EBDD438269F7D2B002BB066 /* LoginController.swift in Sources */,
 				1E47565126A0DACF00334B13 /* ResetPasswordController.swift in Sources */,
 				1E47565626A1069300334B13 /* SlideOutMenuController.swift in Sources */,
 				1E168D1926AB819300D4836B /* SlideOutMenuController + ListTableViewCell.swift in Sources */,
 				1E168D2726AB91D800D4836B /* BaseController + SlideOutMenuController.swift in Sources */,
-				1EF3DAF826A8B1FF003537E2 /* ToDoItemListCollectionViewController.swift in Sources */,
 				1E3B6B2E2710CC110008B1B5 /* CompletionStatusDelegate.swift in Sources */,
 				1ED61E3126B344E5008011D7 /* EditToDoItemController.swift in Sources */,
 				1E585C062724C65A00AF0520 /* CompletionStatusFromSearchControllerDelegate.swift in Sources */,
@@ -492,7 +469,6 @@
 				1E51096226AF6925009EF01C /* CreateListDelegate.swift in Sources */,
 				1E5E14B2269F80E0005C7C37 /* UIStackView.swift in Sources */,
 				1EF921CA26A45B3C00D189C9 /* ToDoItemList.swift in Sources */,
-				1E87648126AA20F700D33C43 /* ToDoItemListCollectionViewController + ListCollectionViewCell.swift in Sources */,
 				1E87647C26AA167900D33C43 /* HomeController + UICollectionView.swift in Sources */,
 				1EFFCAFA269FE126006BF8F6 /* HomeController.swift in Sources */,
 			);

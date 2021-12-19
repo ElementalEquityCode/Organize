@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseFirestore
 import PhotosUI
 
-class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate, AnimateProgressViewDelegate, EditToDoItemDelegate, CreateItemDelegate, CompletionStatusDelegate, CompletionStatusFromSearchControllerDelegate, PHPickerViewControllerDelegate {
+class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate, EditToDoItemDelegate, CreateItemDelegate, CompletionStatusDelegate, CompletionStatusFromSearchControllerDelegate, PHPickerViewControllerDelegate {
     
     // MARK: - Properties
     
@@ -43,15 +43,17 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
             }
         }
     }
-        
+            
     lazy var menuSwipeLimit = view.frame.width * 0.6
     
-    private let headerIconsNavigationBarContainerView: UIView = {
+    let borderView = UIView.makeHorizontalBorderView()
+    
+    private lazy var headerIconsNavigationBarContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .elevatedBackgroundColor
         view.translatesAutoresizingMaskIntoConstraints = false
         
-        let borderView = UIView.makeHorizontalBorderView()
+        borderView.backgroundColor = traitCollection.userInterfaceStyle == .light ? .clear : UIColor(red: 45/255, green: 55/255, blue: 72/255, alpha: 1)
         view.addSubview(borderView)
         
         borderView.anchor(topAnchor: nil, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
@@ -79,12 +81,6 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
         button.widthAnchor.constraint(equalToConstant: 30).isActive = true
         return button
-    }()
-    
-    private let listsLabel: UILabel = {
-        let label = UILabel.makeSubheadingLabel(with: "Lists".uppercased())
-        label.textAlignment = .left
-        return label
     }()
     
     private let searchForTaskButton: UIButton = {
@@ -130,14 +126,6 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         let label = UILabel.makeSubheadingLabel(with: "")
         label.textAlignment = .left
         return label
-    }()
-    
-    var listCollectionViewController: ToDoItemListCollectionViewController = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = ToDoItemListCollectionViewController(collectionViewLayout: layout)
-        collectionView.view.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
     }()
     
     var isEditingCollectionView = false {
@@ -241,27 +229,19 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     private func setupSubviews() {
         view.addSubview(headerIconsNavigationBarContainerView)
         headerIconsNavigationBarContainerView.addSubview(headerIconsNavigationBar)
-        view.addSubview(listsLabel)
-        view.addSubview(toDoItemsCollectionView)
         view.addSubview(listTasksLabel)
-        view.addSubview(listCollectionViewController.view)
+        view.addSubview(toDoItemsCollectionView)
         view.addSubview(menuGradientView)
         view.addSubview(addTaskTextField)
         
         headerIconsNavigationBarContainerView.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 80 + UIApplication.shared.windows[0].safeAreaInsets.top, width: 0)
         
         headerIconsNavigationBar.anchor(topAnchor: nil, rightAnchor: headerIconsNavigationBarContainerView.trailingAnchor, bottomAnchor: headerIconsNavigationBarContainerView.bottomAnchor, leftAnchor: headerIconsNavigationBarContainerView.leadingAnchor, topPadding: 0, rightPadding: 30, bottomPadding: 10, leftPadding: 30, height: 0, width: 0)
-
-        listsLabel.anchor(topAnchor: headerIconsNavigationBar.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 20, rightPadding: 20, bottomPadding: 20, leftPadding: 30, height: 0, width: 0)
+        
+        listTasksLabel.anchor(topAnchor: headerIconsNavigationBarContainerView.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 0, rightPadding: 30, bottomPadding: 0, leftPadding: 30, height: 70, width: 0)
                 
-        toDoItemsCollectionView.anchor(topAnchor: view.centerYAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: -view.frame.height * 0.075, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
-        
-        listTasksLabel.anchor(topAnchor: nil, rightAnchor: view.trailingAnchor, bottomAnchor: toDoItemsCollectionView.topAnchor, leftAnchor: view.leadingAnchor, topPadding: 20, rightPadding: 30, bottomPadding: 10, leftPadding: 30, height: 0, width: 0)
-        
-        addChild(listCollectionViewController)
-        listCollectionViewController.didMove(toParent: self)
-        listCollectionViewController.view.anchor(topAnchor: listsLabel.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: listTasksLabel.topAnchor, leftAnchor: view.leadingAnchor, topPadding: 20, rightPadding: 0, bottomPadding: 20, leftPadding: 0, height: 0, width: 0)
-        
+        toDoItemsCollectionView.anchor(topAnchor: listTasksLabel.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
+                
         addTaskTextFieldBottomAnchor = addTaskTextField.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         addTaskTextFieldBottomAnchor.isActive = true
         
@@ -286,14 +266,12 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     }
     
     private func setSubviewsToInvisible() {
+        headerIconsNavigationBarContainerView.alpha = 0
         slideOutControllerButton.alpha = 0
         searchForTaskButton.alpha = 0
         editListButton.alpha = 0
         profileButton.alpha = 0
-        
-        listsLabel.alpha = 0
-        listCollectionViewController.view.alpha = 0
-        
+                
         listTasksLabel.alpha = 0
         toDoItemsCollectionView.alpha = 0
         
@@ -302,6 +280,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     func animateSubviews() {
         UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
+            self.headerIconsNavigationBarContainerView.alpha = 1
             self.slideOutControllerButton.alpha = 1
             self.searchForTaskButton.alpha = 1
             self.editListButton.alpha = 1
@@ -309,16 +288,11 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         }
         
         UIView.animate(withDuration: 1, delay: 0.2, options: .curveEaseOut) {
-            self.listsLabel.alpha = 1
-            self.listCollectionViewController.view.alpha = 1
-        }
-        
-        UIView.animate(withDuration: 1, delay: 0.4, options: .curveEaseOut) {
             self.listTasksLabel.alpha = 1
             self.toDoItemsCollectionView.alpha = 1
         }
         
-        UIView.animate(withDuration: 1, delay: 0.6, options: .curveEaseOut) {
+        UIView.animate(withDuration: 1, delay: 0.4, options: .curveEaseOut) {
             self.addTaskTextField.alpha = 1
         }
     }
@@ -354,9 +328,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         
         baseController.slideOutMenuController.selectListDelegate = self
         baseController.slideOutMenuController.createListDelegate = self
-        
-        listCollectionViewController.delegate = self
-        
+                
         addTaskTextField.createItemDelegate = self
     }
     
@@ -388,7 +360,6 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         }
         
         isEditingCollectionView = false
-        progressViewShouldAnimate()
     }
     
     @objc private func handleCloseToolBar() {
@@ -508,10 +479,6 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         currentlyViewedList = list
         
         toDoItemsCollectionView.reloadSections(IndexSet(0...1))
-        
-        if let index = toDoItemLists.firstIndex(of: list) {
-            listCollectionViewController.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: true)
-        }
     }
     
     // MARK: - CompletionStatusDelegate
@@ -555,39 +522,18 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 toDoItemsCollectionView.moveItem(at: indexMoveFrom, to: indexMoveTo)
             }
         }
-        
-        progressViewShouldAnimate()
     }
     
     // MARK: - CompletionStatusFromSearchControllerDelegate
     
     func didChangeTaskCompletionStatus() {
         toDoItemsCollectionView.reloadData()
-        allProgressViewsShouldAnimate()
     }
     
     // MARK: - CreateItemDelegate
     
     func didCreateItem() {
         createToDoItem()
-    }
-    
-    // MARK: - AnimateProgressViewDelegate
-    
-    func progressViewShouldAnimate() {
-        if let currentlyViewedList = currentlyViewedList {
-            let index = toDoItemLists.firstIndex { (toDoItemList) -> Bool in
-                return toDoItemList == currentlyViewedList
-            }
-            
-            if let index = index {
-                listCollectionViewController.animateProgressViewForList(at: index)
-            }
-        }
-    }
-    
-    func allProgressViewsShouldAnimate() {
-        listCollectionViewController.collectionView.reloadData()
     }
     
     // MARK: - EditItemProtocol
@@ -639,6 +585,18 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         picker.dismiss(animated: true)
     }
     
+    // MARK: - TraitCollection
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if let previousTraitCollection = previousTraitCollection {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                traitCollection.performAsCurrent {
+                    borderView.backgroundColor = traitCollection.userInterfaceStyle == .light ? .clear : UIColor(red: 45/255, green: 55/255, blue: 72/255, alpha: 1)
+                }
+            }
+        }
+    }
+    
     // MARK: - Helpers
     
     private func setProfileImage(with image: UIImage) {
@@ -686,28 +644,29 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     private func presentEditToDoItemNameActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: "Edit To Do List Name", preferredStyle: .alert)
-        actionSheet.addTextField(configurationHandler: nil)
+        actionSheet.addTextField(configurationHandler: { textField in
+            textField.autocorrectionType = .yes
+            textField.autocapitalizationType = .sentences
+        })
         actionSheet.addAction(UIAlertAction(title: "Save", style: .default, handler: { [unowned self] (_) in
-            if let textfield = actionSheet.textFields?[0] {
-                if !textfield.text!.isEmpty {
+            if let textField = actionSheet.textFields?[0] {
+                textField.autocorrectionType = .yes
+                textField.autocapitalizationType = .sentences
+                if !textField.text!.isEmpty {
                     if let currentlyViewedList = self.currentlyViewedList {
-                        currentlyViewedList.editName(with: textfield.text!)
-                        self.listTasksLabel.text = "TASKS FOR \(textfield.text!)"
+                        currentlyViewedList.editName(with: textField.text!)
+                        self.listTasksLabel.text = "TASKS FOR \(textField.text!.uppercased())"
                         
-                        if let indexToUpdate = self.listCollectionViewController.toDoItemLists.firstIndex(of: currentlyViewedList) {
-                            let indexPath = IndexPath(item: indexToUpdate, section: 0)
-                            if let collectionViewCell = self.listCollectionViewController.collectionView.cellForItem(at: indexPath) as? ListCollectionViewCell {
-                                collectionViewCell.updateToDoListNameLabel(with: textfield.text!)
-                            }
-                            if let tableViewCell = self.baseController.slideOutMenuController.tableView.cellForRow(at: indexPath) as? ListTableViewCell {
-                                tableViewCell.updateListNameLabel(with: textfield.text!)
-                            }
+                        if let index = toDoItemLists.firstIndex(of: currentlyViewedList) {
+                            baseController.slideOutMenuController.toDoItemLists[index].name = textField.text!
+                            baseController.slideOutMenuController.tableView.reloadSections(IndexSet(integer: 0), with: .fade)
+                            baseController.slideOutMenuController.indexPathOfPreviouslySelectedRow = IndexPath(row: index + 1, section: 0)
                         }
                     }
                 }
             }
         }))
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .destructive))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(actionSheet, animated: true)
     }
     
@@ -737,8 +696,6 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                     currentlyViewedList!.toDoItems.append(ToDoItem(name: text, isCompleted: false, created: creationDate, dueDate: addTaskTextField.capturedDate, path: path.document(uuid)))
                     toDoItemsCollectionView.insertItems(at: [IndexPath(item: currentlyViewedList!.toDoItems.count - 1, section: 0)])
                     toDoItemsCollectionView.scrollToItem(at: IndexPath(item: currentlyViewedList!.toDoItems.count - 1, section: 0), at: .top, animated: true)
-                    
-                    progressViewShouldAnimate()
                 }
             }
         }
@@ -746,36 +703,16 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     private func deleteCurrentlyViewedList() {
         if let currentlyViewedList = currentlyViewedList {
-            currentlyViewedList.deleteListFromDatabase { (error1, error2, error3) in
-                if let error1 = error1 {
-                    print(error1.localizedDescription)
-                }
-                
-                if let error2 = error2 {
-                    print(error2.localizedDescription)
-                }
-                
-                if let error3 = error3 {
-                    print(error3.localizedDescription)
-                }
-                
+            currentlyViewedList.deleteListFromDatabase {
                 if let listIndex = self.toDoItemLists.firstIndex(of: self.currentlyViewedList!) {
                     self.toDoItemLists.remove(at: listIndex)
-                    self.listCollectionViewController.toDoItemLists.remove(at: listIndex)
                     self.baseController.slideOutMenuController.toDoItemLists.remove(at: listIndex)
                     
-                    self.listCollectionViewController.collectionView.reloadSections(IndexSet(integer: 0))
                     self.baseController.slideOutMenuController.tableView.deleteRows(at: [IndexPath(row: listIndex + 1, section: 0)], with: .automatic)
-                    
-                    if let indexPathOfPreviouslySelectedRow =  self.baseController.slideOutMenuController.indexPathOfPreviouslySelectedRow {
-                        self.baseController.slideOutMenuController.tableView.cellForRow(at: IndexPath(row: indexPathOfPreviouslySelectedRow.row, section: 0))?.isSelected = false
-                    }
-                    
+                                        
                     if !self.toDoItemLists.isEmpty {
                         self.currentlyViewedList = self.toDoItemLists[0]
                         self.toDoItemsCollectionView.reloadSections(IndexSet(integer: 0))
-                        self.listCollectionViewController.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
-                        self.baseController.slideOutMenuController.tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.isSelected = true
                         self.baseController.slideOutMenuController.indexPathOfPreviouslySelectedRow = IndexPath(row: 1, section: 0)
                     } else {
                         self.currentlyViewedList = nil

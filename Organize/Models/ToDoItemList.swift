@@ -55,31 +55,15 @@ class ToDoItemList: Decodable, Equatable {
         }
     }
     
-    func deleteListFromDatabase(completion: @escaping (Error?, Error?, Error?) -> Void) {
-        if let path = path {
-            var error1: Error?
-            var error2: Error?
-            var error3: Error?
-            
-            path.delete { (error) in
-                error1 = error
-            }
-            
-            path.collection("items").getDocuments { (snapshot, error) in
-                if let error = error {
-                    error2 = error
-                } else {
-                    for document in snapshot!.documents {
-                        path.collection("items").document(document.documentID).delete { (error) in
-                            if let error = error {
-                                error3 = error
-                            }
-                        }
-                    }
-                    completion(error1, error2, error3)
-                }
-            }
+    func deleteListFromDatabase(completion: () -> Void) {
+        toDoItems.forEach { toDoItem in
+            toDoItem.deleteFromDatabase()
         }
+        completedToDoItems.forEach { toDoitem in
+            toDoitem.deleteFromDatabase()
+        }
+        path?.delete()
+        completion()
     }
     
     // MARK: - Equatable
