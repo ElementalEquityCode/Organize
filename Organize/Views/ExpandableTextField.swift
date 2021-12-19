@@ -116,13 +116,8 @@ class ExpandableTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupTextField() {        
-        layer.shadowColor = UIColor.primaryColor.cgColor
-        layer.shadowRadius = 5
-        layer.shadowOffset = CGSize(width: 0, height: 5)
-        layer.shadowOpacity = 0.4
-        
-        textColor = .generalTextFieldFontColor
+    private func setupTextField() {
+        textColor = .black
         returnKeyType = .done
         textAlignment = .left
         backgroundColor = .primaryColor
@@ -130,7 +125,7 @@ class ExpandableTextField: UITextField {
         textAlignment = .center
         autocorrectionType = .yes
         
-        attributedPlaceholder = NSAttributedString(string: "+", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 40, weight: .thin), NSAttributedString.Key.baselineOffset: 1])
+        attributedPlaceholder = NSAttributedString(string: "+", attributes: [NSAttributedString.Key.foregroundColor: UIColor.generalActionButtonFontColor, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 40, weight: .thin), NSAttributedString.Key.baselineOffset: 1])
         
         translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -168,6 +163,7 @@ class ExpandableTextField: UITextField {
     }
     
     @objc private func textFieldDidBeginEditing() {
+        placeholder = ""
         capturedText = ""
         datePicker.date = Date()
         capturedDate = nil
@@ -181,6 +177,7 @@ class ExpandableTextField: UITextField {
     }
     
     @objc private func textFieldDidEndEditing() {
+        attributedPlaceholder = NSAttributedString(string: "+", attributes: [NSAttributedString.Key.foregroundColor: UIColor.generalActionButtonFontColor, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 40, weight: .thin), NSAttributedString.Key.baselineOffset: 1])
         text!.removeAll()
         createToDoItemBarButtonItem.isEnabled = false
         selectDueDateBarButtonItem.isEnabled = false
@@ -204,15 +201,6 @@ class ExpandableTextField: UITextField {
     // MARK: - Animations
     
     private func performEnabledStatusBackgroundColorAnimation(to color: UIColor) {
-        let animation = CABasicAnimation(keyPath: "shadowColor")
-        animation.fromValue = color == UIColor.primaryColor ? UIColor.gray.cgColor : UIColor.primaryColor.cgColor
-        animation.toValue = color == UIColor.primaryColor ? UIColor.primaryColor.cgColor : UIColor.gray.cgColor
-        animation.duration = 0.3
-        animation.isRemovedOnCompletion = false
-        animation.fillMode = .forwards
-        
-        layer.add(animation, forKey: nil)
-        
         UIView.animate(withDuration: 0.3) {
             self.backgroundColor = color
         }
@@ -236,30 +224,14 @@ class ExpandableTextField: UITextField {
             }
         }
         
-        let animation1 = CABasicAnimation(keyPath: "shadowColor")
-        animation1.fromValue = state == .opened ? UIColor.black.cgColor : UIColor.primaryColor.cgColor
-        animation1.toValue = state == .closed ? UIColor.primaryColor.cgColor : UIColor.black.cgColor
-        animation1.duration = 0.3
-        animation1.fillMode = .forwards
-        animation1.isRemovedOnCompletion = false
+        let animation = CABasicAnimation(keyPath: "cornerRadius")
+        animation.fromValue = state == .opened ? 5 : 30
+        animation.toValue = state == .closed ? 30 : 5
+        animation.duration = 0.3
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = false
         
-        let animation2 = CABasicAnimation(keyPath: "shadowOpacity")
-        animation2.fromValue = state == .opened ? 0.075 : 0.4
-        animation2.toValue = state == .closed ? 0.4 : 0.075
-        animation2.duration = 0.3
-        animation2.fillMode = .forwards
-        animation2.isRemovedOnCompletion = false
-        
-        let animation3 = CABasicAnimation(keyPath: "cornerRadius")
-        animation3.fromValue = state == .opened ? 5 : 30
-        animation3.toValue = state == .closed ? 30 : 5
-        animation3.duration = 0.3
-        animation3.fillMode = .forwards
-        animation3.isRemovedOnCompletion = false
-        
-        self.layer.add(animation1, forKey: nil)
-        self.layer.add(animation2, forKey: nil)
-        self.layer.add(animation3, forKey: nil)
+        self.layer.add(animation, forKey: nil)
     }
     
 }
