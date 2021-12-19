@@ -14,7 +14,7 @@ class ResetPasswordController: UIViewController, UITextFieldDelegate {
     
     private let elevatedBackground = UIView.makeElevatedBackground()
         
-    private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, titleLabel, subheadingLabel, emailTextField, UIView(), sendRequestButton], distribution: .fill, spacing: 20)
+    private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, titleLabel, subheadingLabel, emailTextField, sendRequestButton], distribution: .equalSpacing, spacing: 0)
     
     private lazy var loadingIndicatorStackView = UIStackView.makeHorizontalStackView(with: [UIView(), loadingIndicator, UIView()], distribution: .equalSpacing, spacing: 0)
     
@@ -61,7 +61,7 @@ class ResetPasswordController: UIViewController, UITextFieldDelegate {
         view.addSubview(elevatedBackground)
         elevatedBackground.addSubview(overallStackView)
         
-        elevatedBackground.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: view.frame.height * 0.275, rightPadding: 16, bottomPadding: view.frame.height * 0.275, leftPadding: 16, height: 0, width: 0)
+        elevatedBackground.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: view.frame.height * 0.2, rightPadding: 16, bottomPadding: view.frame.height * 0.2, leftPadding: 16, height: 0, width: 0)
         overallStackView.anchorInCenterOfParent(parentView: elevatedBackground, topPadding: 32, rightPadding: 32, bottomPadding: 32, leftPadding: 32)
     }
     

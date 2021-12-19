@@ -7,9 +7,11 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseStorage
 import FirebaseFirestore
+import PhotosUI
 
-class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate, AnimateProgressViewDelegate, EditToDoItemDelegate, CreateItemDelegate, CompletionStatusDelegate, CompletionStatusFromSearchControllerDelegate {
+class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate, AnimateProgressViewDelegate, EditToDoItemDelegate, CreateItemDelegate, CompletionStatusDelegate, CompletionStatusFromSearchControllerDelegate, PHPickerViewControllerDelegate {
     
     // MARK: - Properties
     
@@ -43,8 +45,8 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     }
         
     lazy var menuSwipeLimit = view.frame.width * 0.6
-            
-    private lazy var headerIconsNavigationBar = UIStackView.makeHorizontalStackView(with: [slideOutControllerButton, UIView(), searchForTaskButton, editListButton], distribution: .fill, spacing: 10)
+                
+    private lazy var headerIconsNavigationBar = UIStackView.makeHorizontalStackView(with: [UIStackView.makeVerticalStackView(with: [UIView(), slideOutControllerButton, UIView()], distribution: .equalSpacing, spacing: 0), UIView(), UIStackView.makeVerticalStackView(with: [UIView(), searchForTaskButton, UIView()], distribution: .equalSpacing, spacing: 0), UIStackView.makeVerticalStackView(with: [UIView(), editListButton, UIView()], distribution: .equalSpacing, spacing: 0), profileButton], distribution: .fill, spacing: 15)
         
     private let slideOutControllerButton: UIButton = {
         let button = UIButton(type: .system)
@@ -68,9 +70,6 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     private let searchForTaskButton: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(named: "magnifyingglass"), for: .normal)
-        button.imageView!.contentMode = .scaleAspectFill
-        button.imageView!.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         button.tintColor = .titleLabelFontColor
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -82,13 +81,23 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         let button = UIButton(type: .system)
         button.isEnabled = false
         button.setBackgroundImage(UIImage(named: "pencil"), for: .normal)
-        button.imageView!.contentMode = .scaleAspectFill
-        button.imageView!.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         button.tintColor = .titleLabelFontColor
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
         button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        return button
+    }()
+    
+    let profileButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setBackgroundImage(UIImage(named: "person.crop.circle"), for: .normal)
+        button.layoutIfNeeded()
+        button.subviews.first?.contentMode = .scaleAspectFill
+        button.tintColor = .titleLabelFontColor
+        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
         return button
     }()
     
@@ -193,12 +202,13 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         if !haveItemsBeenFetched {
             haveItemsBeenFetched = true
             fetchItemsFromDatabase()
+            fetchUserProfileImageFromDatabase()
             
             let toolBarItem1 = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(handleDeleteSelectedItems))
             toolBarItem1.tintColor = .titleLabelFontColor
             let toolBarItem2 = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(handleCloseToolBar))
             toolBarItem2.tintColor = .titleLabelFontColor
-            
+
             toolBar.items = [toolBarItem1, toolBarItem2]
         }
     }
@@ -212,7 +222,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         view.addSubview(menuGradientView)
         view.addSubview(addTaskTextField)
         
-        headerIconsNavigationBar.anchorToTopOfViewController(parentView: view, topPadding: 30, rightPadding: 30, leftPadding: 30, height: 30)
+        headerIconsNavigationBar.anchorToTopOfViewController(parentView: view, topPadding: 30, rightPadding: 30, leftPadding: 30, height: 60)
         
         listsLabel.anchor(topAnchor: headerIconsNavigationBar.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 20, rightPadding: 20, bottomPadding: 20, leftPadding: 30, height: 0, width: 0)
                 
@@ -251,6 +261,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         slideOutControllerButton.alpha = 0
         searchForTaskButton.alpha = 0
         editListButton.alpha = 0
+        profileButton.alpha = 0
         
         listsLabel.alpha = 0
         listCollectionViewController.view.alpha = 0
@@ -266,6 +277,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
             self.slideOutControllerButton.alpha = 1
             self.searchForTaskButton.alpha = 1
             self.editListButton.alpha = 1
+            self.profileButton.alpha = 1
         }
         
         UIView.animate(withDuration: 1, delay: 0.2, options: .curveEaseOut) {
@@ -302,6 +314,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         slideOutControllerButton.addTarget(baseController, action: #selector(baseController.handleOpenMenu), for: .touchUpInside)
         searchForTaskButton.addTarget(self, action: #selector(presentTaskSearchViewController), for: .touchUpInside)
         editListButton.addTarget(self, action: #selector(handleEditList), for: .touchUpInside)
+        profileButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
     }
     
     private func setupDelegates() {
@@ -414,6 +427,23 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         }))
         actionSheet.addAction(UIAlertAction(title: "Close", style: .cancel))
         present(actionSheet, animated: true)
+    }
+    
+    @objc func handleEditProfile() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Logout", style: .destructive, handler: { (_) in
+            do {
+                try Auth.auth().signOut()
+                self.dismiss(animated: true)
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }))
+        alertController.addAction(UIAlertAction(title: "Change Photo", style: .default, handler: { (_) in
+            self.presentPHPickerViewController()
+        }))
+        alertController.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+        present(alertController, animated: true)
     }
     
     // MARK: - UITextFieldDelegate
@@ -556,7 +586,75 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         }
     }
     
+    // MARK: - PHPickerViewControllerDelegate
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        results.forEach { result in
+            let itemProvider = result.itemProvider
+            
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.present(makeAlertViewController(with: "Error", message: error.localizedDescription), animated: true)
+                        }
+                    } else {
+                        if let image = image as? UIImage {
+                            DispatchQueue.main.async {
+                                self.setProfileImage(with: image)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        picker.dismiss(animated: true)
+    }
+    
     // MARK: - Helpers
+    
+    private func setProfileImage(with image: UIImage) {
+       UIView.transition(with: profileButton, duration: 0.5, options: .transitionCrossDissolve) {
+           self.profileButton.setBackgroundImage(image, for: .normal)
+       }
+       
+       saveFileToStorage(image)
+   }
+    
+    private func saveFileToStorage(_ image: UIImage) {
+            if let user = Auth.auth().currentUser {
+                if let imageData = image.jpegData(compressionQuality: 0.8) {
+                    let storageLocation = Storage.storage().reference().child("users").child(user.uid).child("profile_image")
+                        
+                    storageLocation.putData(imageData, metadata: nil) { (_, error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        } else {
+                            Firestore.firestore().collection("users").document(user.uid).updateData(["profile_image_url": storageLocation.fullPath])
+                        }
+                    }
+                }
+            }
+        }
+    
+    private func presentPHPickerViewController() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        
+        let PHPickerViewController = PHPickerViewController(configuration: configuration)
+        PHPickerViewController.delegate = self
+        
+        PHPhotoLibrary.requestAuthorization { status in
+            DispatchQueue.main.async {
+                if status == .authorized {
+                    self.present(PHPickerViewController, animated: true)
+                } else {
+                    self.present(makeAlertViewController(with: "Error", message: "To set a profile image, access to your media library is required"), animated: true)
+
+                }
+            }
+        }
+    }
     
     private func presentEditToDoItemNameActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: "Edit To Do List Name", preferredStyle: .alert)

@@ -12,6 +12,8 @@ extension UILabel {
     static func makeTitleLabel(with text: String) -> UILabel {
         let label = UILabel()
         label.textAlignment = .center
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         label.text = text
         label.textColor = UIColor.titleLabelFontColor

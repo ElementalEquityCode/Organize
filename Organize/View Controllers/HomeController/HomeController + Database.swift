@@ -6,6 +6,7 @@
 //
 
 import FirebaseAuth
+import FirebaseStorage
 import FirebaseFirestore
 
 extension HomeController: CreateListDelegate {
@@ -101,6 +102,34 @@ extension HomeController: CreateListDelegate {
                     
                     if self.totalNumberOfListsFetchedSoFar == self.totalNumberOfListsToBeFetched {
                         self.didFinishFetchingItemsFromDatabase()
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchUserProfileImageFromDatabase() {
+        if let user = Auth.auth().currentUser {
+            Firestore.firestore().collection("users").document(user.uid).getDocument { (snapshot, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    if let data = snapshot!.data() {
+                        if let profileImagePath = data["profile_image_url"] as? String {
+                            if profileImagePath != "nil" {
+                                Storage.storage().reference().child("users").child(user.uid).child("profile_image").getData(maxSize: Int64.max) { (data, error) in
+                                    if let error = error {
+                                        print(error.localizedDescription)
+                                    } else {
+                                        if let image = UIImage(data: data!) {
+                                            UIView.transition(with: self.profileButton, duration: 0.5, options: .transitionCrossDissolve) {
+                                                self.profileButton.setBackgroundImage(image, for: .normal)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

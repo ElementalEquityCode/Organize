@@ -294,7 +294,7 @@ class RegisterController: UIViewController, UITextFieldDelegate, PHPickerViewCon
             let maxY = overallStackView.convert(createAccountButton.frame, to: self.view).maxY
             
             if count == 1 && maxY > (view.frame.height - keyboardFrame.height) {
-                Organize.performOpenKeyboardAnimation(moving: overallStackView, animationDuration, -(maxY - (view.frame.height - keyboardFrame.height)) - 50)
+                Organize.performOpenKeyboardAnimation(moving: view, animationDuration, -(maxY - (view.frame.height - keyboardFrame.height)) - 70)
             }
         }
     }
@@ -303,7 +303,7 @@ class RegisterController: UIViewController, UITextFieldDelegate, PHPickerViewCon
         if let notificationData = notification.userInfo {
             guard let animationDuration = notificationData["UIKeyboardAnimationDurationUserInfoKey"] as? Double else { return }
             
-            performCloseKeyboardAnimation(moving: overallStackView, animationDuration)
+            performCloseKeyboardAnimation(moving: view, animationDuration)
             count = 0
         }
     }
