@@ -10,7 +10,7 @@ import UIKit
 extension UIColor {
     
     static let primaryBackgroundColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in
-        return traitCollection.userInterfaceStyle == .light ? UIColor(red: 249/255, green: 252/255, blue: 250/255, alpha: 1) : UIColor(red: 11/255, green: 15/255, blue: 25/255, alpha: 1)
+        return traitCollection.userInterfaceStyle == .light ? UIColor(red: 249/255, green: 250/255, blue: 252/255, alpha: 1) : UIColor(red: 11/255, green: 15/255, blue: 25/255, alpha: 1)
     }
     
     static let secondaryBackgroundColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchForTaskController: UIViewController, UISearchBarDelegate, CompletionStatusDelegate {
+class SearchForTaskController: UIViewController, UITextFieldDelegate, CompletionStatusDelegate {
     
     // MARK: - Properties
     
@@ -15,14 +15,7 @@ class SearchForTaskController: UIViewController, UISearchBarDelegate, Completion
     var toDoItemLists = [ToDoItemList]()
     var searchResults = [ToDoItem]()
     
-    private let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search for Task"
-        searchBar.backgroundImage = UIImage()
-        searchBar.autocorrectionType = .yes
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        return searchBar
-    }()
+    private let searchBar = GeneralTextField(with: "Search...", textFieldType: .normal, isSecure: false)
     
     let searchResultsCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -70,7 +63,7 @@ class SearchForTaskController: UIViewController, UISearchBarDelegate, Completion
         view.addSubview(searchBar)
         view.addSubview(searchResultsCollectionView)
         
-        searchBar.anchorToTopOfViewController(parentView: view, topPadding: 30, rightPadding: 22, leftPadding: 22, height: view.frame.height * 0.05)
+        searchBar.anchorToTopOfViewController(parentView: view, topPadding: 30, rightPadding: 30, leftPadding: 30, height: 60)
         
         searchResultsCollectionView.anchor(topAnchor: searchBar.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: 20, rightPadding: 0, bottomPadding: 30, leftPadding: 0, height: 0, width: 0)
     }
@@ -79,20 +72,20 @@ class SearchForTaskController: UIViewController, UISearchBarDelegate, Completion
         searchBar.delegate = self
     }
     
-    // MARK: - UISearchBarDelegate
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    // MARK: - UITextFieldDelegate
+
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         searchResults.removeAll()
         
-        if !searchText.trimmingCharacters(in: .whitespaces).isEmpty {
+        if !textField.text!.trimmingCharacters(in: .whitespaces).isEmpty {
             toDoItemLists.forEach { (list) in
                 list.toDoItems.forEach { (uncompletedItem) in
-                    if uncompletedItem.name.contains(searchText) {
+                    if uncompletedItem.name.lowercased().contains(textField.text!.lowercased()) {
                         searchResults.append(uncompletedItem)
                     }
                 }
                 list.completedToDoItems.forEach { (completedItem) in
-                    if completedItem.name.contains(searchText) {
+                    if completedItem.name.lowercased().contains(textField.text!.lowercased()) {
                         searchResults.append(completedItem)
                     }
                 }
@@ -102,10 +95,6 @@ class SearchForTaskController: UIViewController, UISearchBarDelegate, Completion
         }
         
         searchResultsCollectionView.reloadData()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
     }
     
     // MARK: - Selectors
@@ -162,6 +151,12 @@ class SearchForTaskController: UIViewController, UISearchBarDelegate, Completion
         }
         
         return currentlyViewedList
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if searchBar.isFirstResponder {
+            searchBar.resignFirstResponder()
+        }
     }
     
 }
