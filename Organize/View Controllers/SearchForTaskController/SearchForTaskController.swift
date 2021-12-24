@@ -33,7 +33,7 @@ class SearchForTaskController: UIViewController, UITextFieldDelegate, Completion
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .secondaryBackgroundColor
+        view.backgroundColor = .primaryBackgroundColor
         setupNavigationController()
         setupSubviews()
         setupDelegates()

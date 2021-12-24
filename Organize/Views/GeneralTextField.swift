@@ -72,7 +72,7 @@ class GeneralTextField: UITextField {
         attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.placeholderTextColor])
         
         translatesAutoresizingMaskIntoConstraints = false
-        heightAnchor.constraint(equalToConstant: 60).isActive = true
+        heightAnchor.constraint(equalToConstant: 55).isActive = true
         
         if isSecure {
             setupRightViewButton()

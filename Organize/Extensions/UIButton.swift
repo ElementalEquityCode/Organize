@@ -17,7 +17,7 @@ extension UIButton {
         button.backgroundColor = UIColor.primaryColor
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 55).isActive = true
         return button
     }
     

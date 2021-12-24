@@ -85,7 +85,9 @@ class RegisterController: UIViewController, UITextFieldDelegate, PHPickerViewCon
         elevatedBackground.addSubview(overallStackView)
         
         elevatedBackground.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: view.frame.height * 0.10, rightPadding: 16, bottomPadding: view.frame.height * 0.10, leftPadding: 16, height: 0, width: 0)
-        overallStackView.anchorInCenterOfParent(parentView: elevatedBackground, topPadding: 32, rightPadding: 32, bottomPadding: 32, leftPadding: 32)
+        overallStackView.leadingAnchor.constraint(equalTo: elevatedBackground.leadingAnchor, constant: 32).isActive = true
+        overallStackView.trailingAnchor.constraint(equalTo: elevatedBackground.trailingAnchor, constant: -32).isActive = true
+        overallStackView.centerYAnchor.constraint(equalTo: elevatedBackground.centerYAnchor, constant: -20).isActive = true
     }
     
     private func setupButtonTargets() {
@@ -312,6 +314,18 @@ class RegisterController: UIViewController, UITextFieldDelegate, PHPickerViewCon
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+    
+    // MARK: - TraitCollection
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if let previousTraitCollection = previousTraitCollection {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                traitCollection.performAsCurrent {
+                    self.elevatedBackground.layer.shadowColor = UIColor.elevatedBackgroundShadowColor.cgColor
+                }
+            }
+        }
     }
     
 }

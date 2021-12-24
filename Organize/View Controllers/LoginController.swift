@@ -15,7 +15,7 @@ class LoginController: UIViewController, UserRegistrationDelegate, UITextFieldDe
     
     private let elevatedBackground = UIView.makeElevatedBackground()
     
-    private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, titleLabel, subheadingLabel, emailTextField, passwordTextField, loginButton, forgotPasswordButton, UIView(), registerButton], distribution: .fill, spacing: 20)
+    private lazy var overallStackView = UIStackView.makeVerticalStackView(with: [loadingIndicatorStackView, titleLabel, subheadingLabel, emailTextField, passwordTextField, loginButton, forgotPasswordButton, registerButton], distribution: .fill, spacing: 20)
     
     private lazy var loadingIndicatorStackView = UIStackView.makeHorizontalStackView(with: [UIView(), loadingIndicator, UIView()], distribution: .equalSpacing, spacing: 0)
             
@@ -62,7 +62,10 @@ class LoginController: UIViewController, UserRegistrationDelegate, UITextFieldDe
         elevatedBackground.addSubview(overallStackView)
         
         elevatedBackground.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: view.frame.height * 0.20, rightPadding: 16, bottomPadding: view.frame.height * 0.20, leftPadding: 16, height: 0, width: 0)
-        overallStackView.anchorInCenterOfParent(parentView: elevatedBackground, topPadding: 32, rightPadding: 32, bottomPadding: 32, leftPadding: 32)
+    
+        overallStackView.leadingAnchor.constraint(equalTo: elevatedBackground.leadingAnchor, constant: 32).isActive = true
+        overallStackView.trailingAnchor.constraint(equalTo: elevatedBackground.trailingAnchor, constant: -32).isActive = true
+        overallStackView.centerYAnchor.constraint(equalTo: elevatedBackground.centerYAnchor, constant: -20).isActive = true
     }
     
     private func setupButtonTargets() {
@@ -231,6 +234,18 @@ class LoginController: UIViewController, UserRegistrationDelegate, UITextFieldDe
         let baseController = BaseController()
         baseController.modalPresentationStyle = .fullScreen
         present(baseController, animated: true)
+    }
+    
+    // MARK: - TraitCollection
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if let previousTraitCollection = previousTraitCollection {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                traitCollection.performAsCurrent {
+                    self.elevatedBackground.layer.shadowColor = UIColor.elevatedBackgroundShadowColor.cgColor
+                }
+            }
+        }
     }
     
 }
