@@ -61,11 +61,16 @@ class ResetPasswordController: UIViewController, UITextFieldDelegate {
         view.addSubview(elevatedBackground)
         elevatedBackground.addSubview(overallStackView)
         
-        elevatedBackground.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: view.frame.height * 0.2, rightPadding: 16, bottomPadding: view.frame.height * 0.2, leftPadding: 16, height: 0, width: 0)
+        elevatedBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        elevatedBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        elevatedBackground.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         overallStackView.leadingAnchor.constraint(equalTo: elevatedBackground.leadingAnchor, constant: 32).isActive = true
         overallStackView.trailingAnchor.constraint(equalTo: elevatedBackground.trailingAnchor, constant: -32).isActive = true
         overallStackView.centerYAnchor.constraint(equalTo: elevatedBackground.centerYAnchor, constant: -20).isActive = true
+        
+        overallStackView.layoutIfNeeded()
+        elevatedBackground.heightAnchor.constraint(equalToConstant: overallStackView.frame.height + 64).isActive = true
     }
     
     private func setupButtonTargets() {
@@ -130,7 +135,7 @@ class ResetPasswordController: UIViewController, UITextFieldDelegate {
             if let error = error {
                 self.present(makeAlertViewController(with: "Error", message: error.localizedDescription), animated: true)
             } else {
-                self.present(makeAlertViewController(with: "Email Sent", message: "An email was sent to \(self.emailTextField.text!) to resetx your password", completion: {
+                self.present(makeAlertViewController(with: "Email Sent", message: "An email was sent to \(self.emailTextField.text!) to reset your password", completion: {
                     self.dismiss(animated: true)
                 }), animated: true)
             }

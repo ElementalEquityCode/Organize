@@ -22,6 +22,7 @@
 		1E3055CF26A0A918004E2930 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E3055CE26A0A918004E2930 /* GoogleService-Info.plist */; };
 		1E3B6B2E2710CC110008B1B5 /* CompletionStatusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3B6B2D2710CC110008B1B5 /* CompletionStatusDelegate.swift */; };
 		1E3B6B312710D0BC0008B1B5 /* HomeController + CompletedToDoItemsCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3B6B302710D0BC0008B1B5 /* HomeController + CompletedToDoItemsCollectionViewHeader.swift */; };
+		1E3D1028277571180009AAA4 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3D1027277571180009AAA4 /* UIFont.swift */; };
 		1E47565126A0DACF00334B13 /* ResetPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47565026A0DACF00334B13 /* ResetPasswordController.swift */; };
 		1E47565626A1069300334B13 /* SlideOutMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E47565526A1069300334B13 /* SlideOutMenuController.swift */; };
 		1E51096226AF6925009EF01C /* CreateListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E51096126AF6925009EF01C /* CreateListDelegate.swift */; };
@@ -74,6 +75,7 @@
 		1E3055CE26A0A918004E2930 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1E3B6B2D2710CC110008B1B5 /* CompletionStatusDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionStatusDelegate.swift; sourceTree = "<group>"; };
 		1E3B6B302710D0BC0008B1B5 /* HomeController + CompletedToDoItemsCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeController + CompletedToDoItemsCollectionViewHeader.swift"; sourceTree = "<group>"; };
+		1E3D1027277571180009AAA4 /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		1E47565026A0DACF00334B13 /* ResetPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordController.swift; sourceTree = "<group>"; };
 		1E47565526A1069300334B13 /* SlideOutMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideOutMenuController.swift; sourceTree = "<group>"; };
 		1E51096126AF6925009EF01C /* CreateListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				1E5E14D0269FA3D3005C7C37 /* UIButton.swift */,
 				1E5E14B9269F825B005C7C37 /* UIColor.swift */,
 				1EBDD44D269F7FEB002BB066 /* UILabel.swift */,
+				1E3D1027277571180009AAA4 /* UIFont.swift */,
 				1E5E14B1269F80E0005C7C37 /* UIStackView.swift */,
 				1E5E14B5269F816A005C7C37 /* UIView.swift */,
 				1E5E14C1269F82EE005C7C37 /* UIViewController.swift */,
@@ -456,6 +459,7 @@
 				1E3B6B2E2710CC110008B1B5 /* CompletionStatusDelegate.swift in Sources */,
 				1ED61E3126B344E5008011D7 /* EditToDoItemController.swift in Sources */,
 				1E585C062724C65A00AF0520 /* CompletionStatusFromSearchControllerDelegate.swift in Sources */,
+				1E3D1028277571180009AAA4 /* UIFont.swift in Sources */,
 				1E29BDC226A4F2AC004EE106 /* SelectListDelegate.swift in Sources */,
 				1EBDD44E269F7FEB002BB066 /* UILabel.swift in Sources */,
 				1ED61E3526B35B3F008011D7 /* EditToDoItemDelegate.swift in Sources */,

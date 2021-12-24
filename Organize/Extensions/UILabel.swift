@@ -14,7 +14,7 @@ extension UILabel {
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.font = UIFont.preferredFont(for: .title1, weight: .bold)
         label.text = text
         label.textColor = UIColor.titleLabelFontColor
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +24,7 @@ extension UILabel {
     static func makeSubheadingLabel(with text: String) -> UILabel {
         let label = UILabel()
         label.textAlignment = .center
-        label.attributedText = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .medium), NSAttributedString.Key.kern: 1.5, NSAttributedString.Key.foregroundColor: UIColor.subheadingLabelFontColor])
+        label.attributedText = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(for: .subheadline, weight: .medium), NSAttributedString.Key.kern: 1.25, NSAttributedString.Key.foregroundColor: UIColor.subheadingLabelFontColor])
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
