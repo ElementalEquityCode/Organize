@@ -124,6 +124,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     private var listTasksLabel: UILabel = {
         let label = UILabel.makeSubheadingLabel(with: "")
+        label.numberOfLines = 0
         label.textAlignment = .left
         return label
     }()

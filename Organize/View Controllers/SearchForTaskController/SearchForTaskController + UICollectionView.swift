@@ -26,7 +26,6 @@ extension SearchForTaskController: UICollectionViewDataSource, UICollectionViewD
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ToDoListItemsCollectionViewCell {
             cell.toDoItem = searchResults[indexPath.row]
             cell.delegate = self
-            cell.checkMarkView.primaryColorForCell = .primaryColor
             return cell
         }
         

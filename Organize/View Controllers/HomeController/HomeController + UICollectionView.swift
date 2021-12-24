@@ -63,10 +63,6 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
             }
 
             if currentlyViewedList != nil {
-                if let index = toDoItemLists.firstIndex(of: currentlyViewedList!) {
-                    cell.checkMarkView.primaryColorForCell = index % 2 == 0 ? .primaryColor : .secondaryColor
-                }
-                
                 if indexPath.section == 0 {
                     cell.toDoItem = currentlyViewedList!.toDoItems[indexPath.row]
                 } else {

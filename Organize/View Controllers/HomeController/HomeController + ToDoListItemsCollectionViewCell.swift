@@ -62,7 +62,7 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        label.font = UIFont.preferredFont(for: .body, weight: .regular)
         label.textColor = .paragraphTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -70,7 +70,7 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
     
     private let dueDateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.font = UIFont.preferredFont(for: .footnote, weight: .regular)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -111,7 +111,7 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
                 
         addSubview(taskNameLabelAndDueDateLabelStackView)
         
-        taskNameLabelAndDueDateLabelStackView.anchor(topAnchor: topAnchor, rightAnchor: trailingAnchor, bottomAnchor: bottomAnchor, leftAnchor: checkMarkView.trailingAnchor, topPadding: 10, rightPadding: 5, bottomPadding: 10, leftPadding: 5, height: 0, width: 0)
+        taskNameLabelAndDueDateLabelStackView.anchor(topAnchor: topAnchor, rightAnchor: trailingAnchor, bottomAnchor: bottomAnchor, leftAnchor: checkMarkView.trailingAnchor, topPadding: 10, rightPadding: 20, bottomPadding: 10, leftPadding: 5, height: 0, width: 0)
     }
     
     private func setupDelegates() {

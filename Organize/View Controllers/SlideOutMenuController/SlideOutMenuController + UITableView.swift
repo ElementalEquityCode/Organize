@@ -43,7 +43,7 @@ extension SlideOutMenuController {
                 cell.emailLabel.text = email
                 
                 let attributedString1 = NSAttributedString(string: email)
-                let attributedString2 = NSAttributedString(string: "\nYour Tier: Free", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17.5, weight: .regular), NSAttributedString.Key.foregroundColor: UIColor(red: 156/255, green: 163/255, blue: 175/255, alpha: 1), NSAttributedString.Key.baselineOffset: -10])
+                let attributedString2 = NSAttributedString(string: "\nYour Tier: Free", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(for: .headline, weight: .regular), NSAttributedString.Key.foregroundColor: UIColor(red: 156/255, green: 163/255, blue: 175/255, alpha: 1), NSAttributedString.Key.baselineOffset: -10])
                 let mutableStringArray = NSMutableAttributedString()
                 mutableStringArray.append(attributedString1)
                 mutableStringArray.append(attributedString2)

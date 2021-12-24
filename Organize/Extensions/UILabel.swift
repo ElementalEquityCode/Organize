@@ -33,7 +33,7 @@ extension UILabel {
         let label = UILabel()
         label.textAlignment = .left
         label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.systemFont(ofSize: 17.5, weight: .regular)
+        label.font = UIFont.preferredFont(for: .body, weight: .regular)
         label.numberOfLines = 0
         label.text = text
         label.textColor = .paragraphTextColor
@@ -44,7 +44,7 @@ extension UILabel {
     static func makeNameLabel() -> UILabel {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        label.font = UIFont.preferredFont(for: .title3, weight: .medium)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
