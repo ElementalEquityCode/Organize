@@ -18,6 +18,12 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
     
     private var toDoItem: ToDoItem
     
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
     private let toDoItemTextViewContainerView: UIView = {
         let toDoItemTextViewContainerView = UIView()
         toDoItemTextViewContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -91,6 +97,12 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
         return datePicker
     }()
     
+    private let deleteToDoItemButton: UIButton = {
+        let button = UIButton.makeClearBackgroundGeneralActionButton(with: "Delete To Do Item")
+        button.setTitleColor(UIColor(red: 209/255, green: 67/255, blue: 67/255, alpha: 1), for: .normal)
+        return button
+    }()
+    
     // MARK: - Initialization
     
     init(toDoItem: ToDoItem, delegate: EditToDoItemDelegate, indexPath: IndexPath) {
@@ -119,7 +131,7 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .secondaryBackgroundColor
+        view.backgroundColor = .primaryBackgroundColor
         setupNavigationItem()
         setupSubviews()
         setupDelegates()
@@ -130,7 +142,7 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
         if navigationController != nil {
             navigationItem.title = "Edit Item"
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissThisViewController))
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(saveEdits))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update", style: .done, target: self, action: #selector(saveEdits))
             
             navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
             navigationController!.navigationBar.shadowImage = UIImage()
@@ -138,25 +150,34 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
     }
     
     private func setupSubviews() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(toDoItemTextViewContainerView)
+        scrollView.addSubview(setDateAndTimeContainerView)
+        scrollView.addSubview(datePickerContainerView)
+        scrollView.addSubview(deleteToDoItemButton)
+        
         toDoItemTextViewContainerView.addSubview(toDoItemTextView)
         setDateAndTimeContainerView.addSubview(dateLabelAndSwitchStackView)
         datePickerContainerView.addSubview(datePicker)
         
-        view.addSubview(toDoItemTextViewContainerView)
-        view.addSubview(setDateAndTimeContainerView)
-        view.addSubview(datePickerContainerView)
+        scrollView.anchor(topAnchor: view.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0, height: 0, width: 0)
         
+        toDoItemTextViewContainerView.anchor(topAnchor: scrollView.contentLayoutGuide.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: navigationController!.navigationBar.frame.height, rightPadding: 30, bottomPadding: 0, leftPadding: 30, height: 0, width: 0)
         toDoItemTextView.anchor(topAnchor: toDoItemTextViewContainerView.topAnchor, rightAnchor: toDoItemTextViewContainerView.trailingAnchor, bottomAnchor: toDoItemTextViewContainerView.bottomAnchor, leftAnchor: toDoItemTextViewContainerView.leadingAnchor, topPadding: 10, rightPadding: 10, bottomPadding: 10, leftPadding: 10, height: 0, width: 0)
-        
-        dateLabelAndSwitchStackView.anchor(topAnchor: setDateAndTimeContainerView.topAnchor, rightAnchor: setDateAndTimeContainerView.trailingAnchor, bottomAnchor: setDateAndTimeContainerView.bottomAnchor, leftAnchor: setDateAndTimeContainerView.leadingAnchor, topPadding: 10, rightPadding: 10, bottomPadding: 10, leftPadding: 10, height: 0, width: 0)
-        
-        datePicker.anchor(topAnchor: datePickerContainerView.topAnchor, rightAnchor: datePickerContainerView.trailingAnchor, bottomAnchor: datePickerContainerView.bottomAnchor, leftAnchor: datePickerContainerView.leadingAnchor, topPadding: 10, rightPadding: 10, bottomPadding: 10, leftPadding: 10, height: 0, width: 0)
-        
-        toDoItemTextViewContainerView.anchor(topAnchor: view.safeAreaLayoutGuide.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: navigationController!.navigationBar.frame.height, rightPadding: 30, bottomPadding: 0, leftPadding: 30, height: 0, width: 0)
+        toDoItemTextViewContainerView.layoutIfNeeded()
                 
         setDateAndTimeContainerView.anchor(topAnchor: toDoItemTextViewContainerView.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 30, rightPadding: 30, bottomPadding: 0, leftPadding: 30, height: 0, width: 0)
-        
+        dateLabelAndSwitchStackView.anchor(topAnchor: setDateAndTimeContainerView.topAnchor, rightAnchor: setDateAndTimeContainerView.trailingAnchor, bottomAnchor: setDateAndTimeContainerView.bottomAnchor, leftAnchor: setDateAndTimeContainerView.leadingAnchor, topPadding: 10, rightPadding: 10, bottomPadding: 10, leftPadding: 10, height: 0, width: 0)
+        setDateAndTimeContainerView.layoutIfNeeded()
+
         datePickerContainerView.anchor(topAnchor: setDateAndTimeContainerView.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 30, rightPadding: 30, bottomPadding: 0, leftPadding: 30, height: 0, width: 0)
+        datePicker.anchor(topAnchor: datePickerContainerView.topAnchor, rightAnchor: datePickerContainerView.trailingAnchor, bottomAnchor: datePickerContainerView.bottomAnchor, leftAnchor: datePickerContainerView.leadingAnchor, topPadding: 10, rightPadding: 10, bottomPadding: 10, leftPadding: 10, height: 0, width: 0)
+        datePickerContainerView.layoutIfNeeded()
+
+        deleteToDoItemButton.anchor(topAnchor: datePickerContainerView.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 30, rightPadding: 30, bottomPadding: 0, leftPadding: 30, height: 0, width: 0)
+        deleteToDoItemButton.layoutIfNeeded()
+
+        scrollView.contentSize = CGSize(width: view.frame.width, height: toDoItemTextViewContainerView.frame.height + setDateAndTimeContainerView.frame.height + datePickerContainerView.frame.height + deleteToDoItemButton.frame.height + 90 + navigationController!.navigationBar.frame.height * 2)
     }
     
     private func setupDelegates() {
@@ -165,6 +186,7 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
     
     private func setupTargets() {
         dateSwitch.addTarget(self, action: #selector(handleDateSwitchChanged), for: .valueChanged)
+        deleteToDoItemButton.addTarget(self, action: #selector(handleDeleteToDoItem), for: .touchUpInside)
     }
     
     // MARK: - UTextViewDelegate
@@ -225,6 +247,12 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
             self.delegate.didEditItem(indexPath: self.indexPath, toDoItem: self.toDoItem)
         }
         self.dismissThisViewController()
+    }
+    
+    @objc private func handleDeleteToDoItem() {
+        toDoItem.deleteFromDatabase()
+        delegate.didDeleteItem(indexPath: self.indexPath)
+        dismissThisViewController()
     }
     
     // MARK: - Helpers

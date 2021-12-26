@@ -63,23 +63,21 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 
     private lazy var headerIconsNavigationBar =
         UIStackView.makeHorizontalStackView(with: [
-            UIStackView.makeVerticalStackView(with: [UIView(), slideOutControllerButton, UIView()], distribution: .equalSpacing, spacing: 15),
+            UIStackView.makeVerticalStackView(with: [UIView.makeVerticalStackViewSpacerView(with: 12.5), slideOutControllerButton, UIView.makeVerticalStackViewSpacerView(with: 12.5)], distribution: .fill, spacing: 0),
             UIView(),
-            UIStackView.makeVerticalStackView(with: [UIView(), searchForTaskButton, UIView()], distribution: .equalSpacing, spacing: 15),
-            UIStackView.makeVerticalStackView(with: [UIView(), editListButton, UIView()], distribution: .equalSpacing, spacing: 15),
+            UIStackView.makeVerticalStackView(with: [UIView.makeVerticalStackViewSpacerView(with: 12.5), searchForTaskButton, UIView.makeVerticalStackViewSpacerView(with: 12.5)], distribution: .fill, spacing: 0),
+            UIStackView.makeVerticalStackView(with: [UIView.makeVerticalStackViewSpacerView(with: 12.5), editListButton, UIView.makeVerticalStackViewSpacerView(with: 12.5)], distribution: .fill, spacing: 0),
             profileButton
-        ], distribution: .fill, spacing: 15)
+        ], distribution: .fill, spacing: 12.5)
         
     private let slideOutControllerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(named: "line.horizontal.3"), for: .normal)
         button.imageView!.contentMode = .scaleAspectFill
-        button.imageView!.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         button.tintColor = .titleLabelFontColor
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 25).isActive = true
         return button
     }()
     
@@ -87,12 +85,10 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(named: "magnifyingglass"), for: .normal)
         button.imageView!.contentMode = .scaleAspectFill
-        button.imageView!.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         button.tintColor = .titleLabelFontColor
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 25).isActive = true
         return button
     }()
     
@@ -100,12 +96,10 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(named: "pencil"), for: .normal)
         button.imageView!.contentMode = .scaleAspectFill
-        button.imageView!.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView!.anchorInCenterOfParent(parentView: button, topPadding: 0, rightPadding: 0, bottomPadding: 0, leftPadding: 0)
         button.tintColor = .titleLabelFontColor
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 25).isActive = true
         return button
     }()
     
@@ -115,9 +109,9 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         button.layoutIfNeeded()
         button.subviews.first?.contentMode = .scaleAspectFill
         button.tintColor = .titleLabelFontColor
-        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        button.layer.cornerRadius = 30
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        button.layer.cornerRadius = 25
         button.layer.masksToBounds = true
         return button
     }()

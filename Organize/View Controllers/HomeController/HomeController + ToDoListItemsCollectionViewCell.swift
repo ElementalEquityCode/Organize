@@ -151,7 +151,7 @@ class ToDoListItemsCollectionViewCell: UICollectionViewCell, CheckMarkViewDelega
     
     private func performTaskLabelAnimation(with value: Bool) {
         UIView.transition(with: taskNameLabel, duration: 0.25, options: .transitionCrossDissolve) {
-            self.taskNameLabel.attributedText = value ? NSAttributedString(string: self.taskNameLabel.text!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.foregroundColor: UIColor.paragraphTextColor.withAlphaComponent(0.75), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .regular)]) : NSAttributedString(string: self.taskNameLabel.text!, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .regular), NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.byWord.rawValue, NSAttributedString.Key.foregroundColor: UIColor.paragraphTextColor])
+            self.taskNameLabel.attributedText = value ? NSAttributedString(string: self.taskNameLabel.text!, attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.foregroundColor: UIColor.paragraphTextColor.withAlphaComponent(0.75), NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .regular)]) : NSAttributedString(string: self.taskNameLabel.text!, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .regular), NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.byWord.rawValue, NSAttributedString.Key.foregroundColor: UIColor.paragraphTextColor])
         }
     }
     
