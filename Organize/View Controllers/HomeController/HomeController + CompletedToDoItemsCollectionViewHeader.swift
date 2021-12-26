@@ -7,11 +7,15 @@
 
 import UIKit
 
-class CompletedToDoItemsCollectionViewHeader: UICollectionViewCell {
+class ToDoItemsCollectionViewHeader: UICollectionViewCell {
     
     // MARK: - Properties
     
-    let label = UILabel.makeSubheadingLabel(with: "COMPLETED ITEMS")
+    let label: UILabel = {
+        let label = UILabel.makeSubheadingLabel(with: "")
+        label.numberOfLines = 0
+        return label
+    }()
     
     // MARK: - Initialization
 

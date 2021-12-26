@@ -13,7 +13,9 @@ class SearchForTaskController: UIViewController, UITextFieldDelegate, Completion
     
     weak var delegate: CompletionStatusFromSearchControllerDelegate?
     var toDoItemLists = [ToDoItemList]()
-    var searchResults = [ToDoItem]()
+    
+    var searchResultsListNames = [String]()
+    var searchResults = [[ToDoItem]()]
     
     private let searchBar = GeneralTextField(with: "Search...", textFieldType: .normal, isSecure: false)
     
@@ -25,6 +27,7 @@ class SearchForTaskController: UIViewController, UITextFieldDelegate, Completion
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ToDoListItemsCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(ToDoItemsCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         return collectionView
     }()
     
@@ -63,7 +66,7 @@ class SearchForTaskController: UIViewController, UITextFieldDelegate, Completion
         view.addSubview(searchBar)
         view.addSubview(searchResultsCollectionView)
         
-        searchBar.anchorToTopOfViewController(parentView: view, topPadding: 30, rightPadding: 30, leftPadding: 30, height: 60)
+        searchBar.anchor(topAnchor: view.safeAreaLayoutGuide.topAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: nil, leftAnchor: view.leadingAnchor, topPadding: 30, rightPadding: 30, bottomPadding: 0, leftPadding: 30, height: 0, width: 0)
         
         searchResultsCollectionView.anchor(topAnchor: searchBar.bottomAnchor, rightAnchor: view.trailingAnchor, bottomAnchor: view.bottomAnchor, leftAnchor: view.leadingAnchor, topPadding: 20, rightPadding: 0, bottomPadding: 30, leftPadding: 0, height: 0, width: 0)
     }
@@ -76,19 +79,27 @@ class SearchForTaskController: UIViewController, UITextFieldDelegate, Completion
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
         searchResults.removeAll()
+        searchResultsListNames.removeAll()
         
+        var index = 0
         if !textField.text!.trimmingCharacters(in: .whitespaces).isEmpty {
             toDoItemLists.forEach { (list) in
+                
+                self.searchResultsListNames.append(list.name)
+                self.searchResults.append([])
+                
                 list.toDoItems.forEach { (uncompletedItem) in
                     if uncompletedItem.name.lowercased().contains(textField.text!.lowercased()) {
-                        searchResults.append(uncompletedItem)
+                        self.searchResults[index].append(uncompletedItem)
                     }
                 }
                 list.completedToDoItems.forEach { (completedItem) in
                     if completedItem.name.lowercased().contains(textField.text!.lowercased()) {
-                        searchResults.append(completedItem)
+                        self.searchResults[index].append(completedItem)
                     }
                 }
+                
+                index += 1
             }
         } else {
             searchResults.removeAll()

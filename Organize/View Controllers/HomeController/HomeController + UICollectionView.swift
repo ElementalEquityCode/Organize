@@ -45,6 +45,10 @@ extension HomeController: UICollectionViewDataSource, UICollectionViewDelegate, 
     // MARK: - UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as? ToDoItemsCollectionViewHeader {
+            header.label.attributedText = NSAttributedString(string: "COMPLETED ITEMS", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(for: .subheadline, weight: .medium), NSAttributedString.Key.kern: 1.25, NSAttributedString.Key.foregroundColor: UIColor.subheadingLabelFontColor])
+            return header
+        }
         return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath)
     }
     

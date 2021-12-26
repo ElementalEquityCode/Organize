@@ -6,10 +6,10 @@
 //
 
 import UIKit
+import PhotosUI
 import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
-import PhotosUI
 
 class SlideOutMenuController: UITableViewController {
     

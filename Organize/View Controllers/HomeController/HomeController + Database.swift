@@ -145,24 +145,8 @@ extension HomeController: CreateListDelegate {
     }
     
     private func updateToDoItemsCollectionViewWithFirstList() {
-        if let firstList = toDoItemLists.first {
-            if !firstList.toDoItems.isEmpty {
-                var indexPaths = [IndexPath]()
-                for item in 0...firstList.toDoItems.count - 1 {
-                    indexPaths.append(IndexPath(item: item, section: 0))
-                }
-                
-                toDoItemsCollectionView.insertItems(at: indexPaths)
-            }
-            
-            if !firstList.completedToDoItems.isEmpty {
-                var indexPaths = [IndexPath]()
-                for item in 0...firstList.completedToDoItems.count - 1 {
-                    indexPaths.append(IndexPath(item: item, section: 1))
-                }
-                
-                toDoItemsCollectionView.insertItems(at: indexPaths)
-            }
+        if toDoItemLists.first != nil {
+            toDoItemsCollectionView.reloadData()
         }
     }
     
