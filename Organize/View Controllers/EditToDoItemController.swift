@@ -250,6 +250,7 @@ class EditToDoItemController: UIViewController, UITextViewDelegate {
     }
     
     @objc private func handleDeleteToDoItem() {
+        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         toDoItem.deleteFromDatabase()
         delegate.didDeleteItem(indexPath: self.indexPath)
         dismissThisViewController()

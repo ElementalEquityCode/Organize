@@ -16,6 +16,12 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     // MARK: - Properties
     
     var haveItemsBeenFetched = false
+    
+    var sortOrder: SortOrder = .ascending {
+        didSet {
+            toDoItemsCollectionView.reloadSections(IndexSet(0...1))
+        }
+    }
         
     unowned let baseController: BaseController
     
@@ -25,6 +31,9 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 listTasksLabel.attributedText = NSAttributedString(string: "Tasks for \(currentlyViewedList!.name)".uppercased(), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .medium), NSAttributedString.Key.kern: 1.5, NSAttributedString.Key.foregroundColor: UIColor.subheadingLabelFontColor])
                 addTaskTextField.isEnabled = true
                 editListButton.isEnabled = true
+                
+                currentlyViewedList?.toDoItems.sort(by: {sortOrder == .ascending ? $0.created < $1.created : $0.created > $1.created})
+                currentlyViewedList?.completedToDoItems.sort(by: {sortOrder == .ascending ? $0.created < $1.created : $0.created > $1.created})
             } else {
                 addTaskTextField.isEnabled = false
                 editListButton.isEnabled = false
@@ -66,6 +75,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
             UIStackView.makeVerticalStackView(with: [UIView.makeVerticalStackViewSpacerView(with: 12.5), slideOutControllerButton, UIView.makeVerticalStackViewSpacerView(with: 12.5)], distribution: .fill, spacing: 0),
             UIView(),
             UIStackView.makeVerticalStackView(with: [UIView.makeVerticalStackViewSpacerView(with: 12.5), searchForTaskButton, UIView.makeVerticalStackViewSpacerView(with: 12.5)], distribution: .fill, spacing: 0),
+            UIStackView.makeVerticalStackView(with: [UIView.makeVerticalStackViewSpacerView(with: 12.5), sortListButton, UIView.makeVerticalStackViewSpacerView(with: 12.5)], distribution: .fill, spacing: 0),
             UIStackView.makeVerticalStackView(with: [UIView.makeVerticalStackViewSpacerView(with: 12.5), editListButton, UIView.makeVerticalStackViewSpacerView(with: 12.5)], distribution: .fill, spacing: 0),
             profileButton
         ], distribution: .fill, spacing: 12.5)
@@ -85,6 +95,17 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(named: "magnifyingglass"), for: .normal)
         button.imageView!.contentMode = .scaleAspectFill
+        button.tintColor = .titleLabelFontColor
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        return button
+    }()
+    
+    private let sortListButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setBackgroundImage(UIImage(named: "arrow.up.arrow.down"), for: .normal)
+        button.imageView!.contentMode = .scaleToFill
         button.tintColor = .titleLabelFontColor
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 25).isActive = true
@@ -309,6 +330,7 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
     
     private func setupTargets() {
         slideOutControllerButton.addTarget(baseController, action: #selector(baseController.handleOpenMenu), for: .touchUpInside)
+        sortListButton.addTarget(self, action: #selector(handleSortList), for: .touchUpInside)
         searchForTaskButton.addTarget(self, action: #selector(presentTaskSearchViewController), for: .touchUpInside)
         editListButton.addTarget(self, action: #selector(handleEditList), for: .touchUpInside)
         profileButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
@@ -406,6 +428,26 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
                 performCloseKeyboardAnimation(animationDuration)
             }
         }
+    }
+    
+    @objc private func handleSortList() {
+        let actionSheet = UIAlertController(title: "Sort By", message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Oldest (Created)", style: .default, handler: { _ in
+            if let currentlyViewedList = self.currentlyViewedList {
+                currentlyViewedList.toDoItems.sort(by: {$0.created < $1.created})
+                currentlyViewedList.completedToDoItems.sort(by: {$0.created < $1.created})
+                self.sortOrder = .ascending
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Newest (Created)", style: .default, handler: { _ in
+            if let currentlyViewedList = self.currentlyViewedList {
+                currentlyViewedList.toDoItems.sort(by: {$0.created > $1.created})
+                currentlyViewedList.completedToDoItems.sort(by: {$0.created > $1.created})
+                self.sortOrder = .descending
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+        present(actionSheet, animated: true)
     }
     
     @objc private func handleEditList() {
@@ -798,4 +840,8 @@ class HomeController: UIViewController, UITextFieldDelegate, SelectListDelegate,
         }
     }
     
+}
+
+enum SortOrder: String {
+    case descending, ascending
 }

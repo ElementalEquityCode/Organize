@@ -99,13 +99,25 @@ class SearchForTaskController: UIViewController, UITextFieldDelegate, Completion
                     }
                 }
                 
-                index += 1
+                if let lastList = self.searchResults.last {
+                    if lastList.isEmpty {
+                        self.searchResults.removeLast()
+                        self.searchResultsListNames.removeLast()
+                    } else {
+                        index += 1
+                    }
+                }
             }
         } else {
             searchResults.removeAll()
         }
         
         searchResultsCollectionView.reloadData()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     // MARK: - Selectors

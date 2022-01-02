@@ -49,10 +49,6 @@ class ListLabelCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        listsLabel.text = ""
-    }
-    
     private func setupCell() {
         backgroundColor = .clear
         selectionStyle = .none
